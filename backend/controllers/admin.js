@@ -14,15 +14,18 @@ class Admin {
       const checkUser = await AdminSchema.find({
         username: username,
       }).exec();
+
       if (checkUser.length > 0) {
         throw { code: 400, message: "Username already exist" };
       }
+
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       const admin = new AdminSchema({
         username: username,
         password: hashedPassword,
       });
+
       const saveAdmin = await admin.save();
       return res.status(200).json({
         status: true,
