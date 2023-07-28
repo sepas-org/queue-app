@@ -5,6 +5,7 @@ const multer = require("multer");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/api/auth");
+const queueRoutes = require("./routes/api/queue");
 const app = express();
 
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(bodyParser.json());
 const upload = multer();
 
 app.use("/api/auth", authRoutes);
+app.use("/api/queue", queueRoutes);
 
 app.post("/api/number", upload.none(), (req, res) => {
   const number = req.body;
