@@ -26,34 +26,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/queue", queueRoutes);
 app.use("/api/display", displayRoutes);
 
-app.post("/api/number", upload.none(), (req, res) => {
-  const number = req.body;
-  console.log(number);
-  try {
-    res.status(400).json({
-      status: "success",
-      error: false,
-      message: "Passing number successfully",
-      data: number,
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(401).json({
-      status: "error",
-      error: true,
-      message: "Parsing number failed",
-    });
-  }
-});
-
-app.get("/api/display", (req, res) => {
-  try {
-    res.status(200).json({ number: 23 });
-  } catch (e) {
-    console.log(e);
-  }
-});
-
 mongoose
   .connect(process.env.MONGO_URL)
   .then(() => {

@@ -4,7 +4,9 @@ require("dotenv").config();
 
 const riwayatSchema = new mongoose.Schema({
   nama: String,
-  age: Number,
+  NIM: String,
+  keperluan: String,
+  antrian: Number,
 });
 
 const Riwayat = mongoose.model("Riwayat", riwayatSchema);
