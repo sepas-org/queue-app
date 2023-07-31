@@ -28,12 +28,20 @@ class Queue {
   async addQueue(req, res) {
     try {
       let date = new Date().toLocaleDateString();
+      let { fullname, nim, keperluan } = req.body;
       queueValue++;
-      queue.push(queueValue);
+      const obj = {
+        queueValue,
+        fullname,
+        nim,
+        keperluan,
+        date,
+      };
+      queue.push(obj);
       return res.status(200).json({
         status: true,
         message: "QUEUE_ADDED",
-        queueValue,
+        queue,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
