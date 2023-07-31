@@ -9,6 +9,7 @@ class Queue {
      */
     try {
       let data = queue.shift();
+      console.log(queue);
       if (!data) {
         throw { code: 400, message: "No queue" };
       }
@@ -28,11 +29,12 @@ class Queue {
   async addQueue(req, res) {
     try {
       queueValue++;
-      let data = queue.push(queueValue);
+      queue.push(queueValue);
+      console.log(queue);
       return res.status(200).json({
         status: true,
         message: "QUEUE_ADDED",
-        data,
+        queueValue,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
