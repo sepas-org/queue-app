@@ -6,14 +6,25 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/api/auth");
 const queueRoutes = require("./routes/api/queue");
+const displayRoutes = require("./routes/api/display");
+const session = require("express-session");
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 const upload = multer();
 
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
 app.use("/api/auth", authRoutes);
 app.use("/api/queue", queueRoutes);
+app.use("/api/display", displayRoutes);
 
 app.post("/api/number", upload.none(), (req, res) => {
   const number = req.body;

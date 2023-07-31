@@ -1,30 +1,47 @@
+var queue = [];
+var queueValue = 0;
+
 class Queue {
-
-  let antrian = 0;
-  let admin1 = 0;
-  let admin2 = 0;
-  let admin3 = 0;
-
-  async queue(req, res) {
+  async nextQueue(req, res) {
+    /**
+     * untuk dapetin antrian selanjutnya
+     * @api {get} /api/queue/next Get Next Queue
+     */
     try {
-      if (req.body.user === "admin1") {
-        antrian++;
-        admin1 = antrian;
-      } else if (req.body.user === "admin2") {
-        this.antrian++;
-        this.admin2 = this.antrian;
-      } else if (req.body.user === "admin3") {
-        this.antrian++;
-        this.admin3 = this.antrian;
+      let data = queue.shift();
+      if (!data) {
+        throw { code: 400, message: "No queue" };
       }
       return res.status(200).json({
         status: true,
-        data: {
-          antrian: this.antrian,
-          admin1: this.admin1,
-          admin2: this.admin2,
-          admin3: this.admin3,
-        },
+        message: "antrian selanjutnya",
+        data,
+      });
+    } catch (err) {
+      return res.status(err.code || 500).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  }
+
+  async addQueue(req, res) {
+    try {
+      let date = new Date().toLocaleDateString();
+      let { fullname, nim, keperluan } = req.body;
+      queueValue++;
+      const obj = {
+        queueValue,
+        fullname,
+        nim,
+        keperluan,
+        date,
+      };
+      queue.push(obj);
+      return res.status(200).json({
+        status: true,
+        message: "QUEUE_ADDED",
+        queue,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
