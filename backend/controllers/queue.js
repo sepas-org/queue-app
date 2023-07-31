@@ -9,7 +9,6 @@ class Queue {
      */
     try {
       let data = queue.shift();
-      console.log(queue);
       if (!data) {
         throw { code: 400, message: "No queue" };
       }
@@ -28,9 +27,9 @@ class Queue {
 
   async addQueue(req, res) {
     try {
+      let date = new Date().toLocaleDateString();
       queueValue++;
       queue.push(queueValue);
-      console.log(queue);
       return res.status(200).json({
         status: true,
         message: "QUEUE_ADDED",
