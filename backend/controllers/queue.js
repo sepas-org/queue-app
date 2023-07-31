@@ -1,3 +1,6 @@
+const queueModel = require("../models/queue");
+const riwayat = require("../models/history");
+
 var queue = [];
 var queueValue = 0;
 

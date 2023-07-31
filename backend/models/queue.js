@@ -2,10 +2,14 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const queueSchema = new Schema({
-  queue: Object,
-  queueValue: Number,
+  queue: {
+    type: Number,
+  },
+  queueValue: {
+    type: Number,
+  },
   Date: String,
 });
 
-const Queue = mongoose.model("Queue", queueSchema);
-module.exports = Queue;
+const queueModel = mongoose.model("antrian", queueSchema);
+module.exports = queueModel;

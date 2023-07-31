@@ -1,6 +1,6 @@
 const AdminSchema = require("../models/Admin");
 const bcrypt = require("bcrypt");
-const session = require("express-session");
+
 class Admin {
   async register(req, res) {
     try {
@@ -55,7 +55,10 @@ class Admin {
         username: username,
       }).exec();
 
-      const isPasswordValid = await bcrypt.compareSync(password, checkUser.password);
+      const isPasswordValid = await bcrypt.compareSync(
+        password,
+        checkUser.password
+      );
       if (!isPasswordValid) {
         throw { code: 400, message: "PASSWORD_INVALID" };
       }
