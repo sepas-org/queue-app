@@ -4,6 +4,6 @@ const displayController = require("../../controllers/queue");
 const { requireAuth } = require("../../middleware/session");
 
 router.get("/next", requireAuth, displayController.nextQueue);
-router.get("/add", displayController.addQueue);
+router.post("/add", displayController.addQueue);
 
 module.exports = router;
