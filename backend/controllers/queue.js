@@ -6,13 +6,21 @@ var queueValue = 0;
 
 var date = new Date().toLocaleDateString();
 
-// will be executed when server start so it will get the last queue if the server is restarted
-const [buffer, _] = await queueModel
-  .find({ tanggal: date })
-  .sort({ _id: -1 })
-  .limit(1)
-  .exec();
+/**
+ * will be executed when server start so it will get the last queue if the server is restarted
+ *  */
 
+const getQueue = async () => {
+  const [buffer, _] = await queueModel
+    .find({ tanggal: date })
+    .sort({ _id: -1 })
+    .limit(1)
+    .exec();
+
+  return buffer;
+};
+
+const buffer = getQueue();
 if (buffer) {
   queue = buffer.queue;
   queueValue = buffer.queueValue;
