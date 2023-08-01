@@ -63,6 +63,7 @@ class Queue {
         date,
       };
 
+      queue.push(obj);
       const queueDb = new queueModel({
         queue: queue,
         queueValue: queueValue,
@@ -80,7 +81,6 @@ class Queue {
       });
       await riwayat.save();
 
-      queue.push(obj);
       return res.status(200).json({
         status: true,
         message: "QUEUE_ADDED",
