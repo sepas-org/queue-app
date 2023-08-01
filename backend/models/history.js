@@ -7,7 +7,7 @@ const riwayatSchema = new mongoose.Schema({
   NIM: String,
   keperluan: String,
   antrian: Number,
-  tanggal: Date,
+  tanggal: String,
 });
 
 const riwayat = mongoose.model("riwayat", riwayatSchema);

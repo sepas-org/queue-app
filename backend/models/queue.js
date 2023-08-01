@@ -8,7 +8,7 @@ const queueSchema = new Schema({
   queueValue: {
     type: Number,
   },
-  Date: String,
+  tanggal: String,
 });
 
 const queueModel = mongoose.model("antrian", queueSchema);
