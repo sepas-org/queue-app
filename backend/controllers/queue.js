@@ -4,13 +4,19 @@ const riwayat = require("../models/history");
 var queue = [];
 var queueValue = 0;
 
-// var date = new Date().toLocaleDateString();
+var date = new Date().toLocaleDateString();
 
-// // const buffer = await queueModel.find({tanggal: date}, {}, { _id: -1 }).exec();
-// // if (buffer) {
-// //   queue = buffer;
-// //   queueValue = queue[queue.length - 1].queueValue;
-// // }
+// will be executed when server start so it will get the last queue if the server is restarted
+const [buffer, _] = await queueModel
+  .find({ tanggal: date })
+  .sort({ _id: -1 })
+  .limit(1)
+  .exec();
+
+if (buffer) {
+  queue = buffer.queue;
+  queueValue = buffer.queueValue;
+}
 
 class Queue {
   async nextQueue(req, res) {
