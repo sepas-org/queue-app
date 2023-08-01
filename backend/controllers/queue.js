@@ -10,21 +10,22 @@ var date = new Date().toLocaleDateString();
  * will be executed when server start so it will get the last queue if the server is restarted
  *  */
 
-const getQueue = async () => {
-  const [buffer, _] = await queueModel
-    .find({ tanggal: date })
-    .sort({ _id: -1 })
-    .limit(1)
-    .exec();
+// const getQueue = async () => {
+//   const [buffer, _] = await queueModel
+//     .find({ tanggal: date })
+//     .sort({ _id: -1 })
+//     .limit(1)
+//     .exec();
 
-  return buffer;
-};
+//   return buffer;
+// };
 
-const buffer = getQueue();
-if (buffer) {
-  queue = buffer.queue;
-  queueValue = buffer.queueValue;
-}
+// const buffer = getQueue();
+// console.log(buffer);
+// if (buffer) {
+//   queue = buffer.queue;
+//   queueValue = buffer.queueValue;
+// }
 
 class Queue {
   async nextQueue(req, res) {
@@ -52,7 +53,6 @@ class Queue {
 
   async addQueue(req, res) {
     try {
-      let date = new Date().toLocaleDateString();
       let { nama, nim, keperluan } = req.body;
       queueValue++;
       const obj = {
@@ -62,6 +62,14 @@ class Queue {
         keperluan,
         date,
       };
+
+      const queueDb = new queueModel({
+        queue: queue,
+        queueValue: queueValue,
+        tanggal: date,
+      });
+      await queueDb.save();
+
       const riwayat = new riwayatSchema({
         nama: nama,
         NIM: nim,
@@ -71,11 +79,12 @@ class Queue {
         status: false,
       });
       await riwayat.save();
+
       queue.push(obj);
       return res.status(200).json({
         status: true,
         message: "QUEUE_ADDED",
-        queue,
+        queue: queue[queue.length - 1],
       });
     } catch (err) {
       return res.status(err.code || 500).json({

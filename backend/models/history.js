@@ -6,7 +6,7 @@ const riwayatSchema = new mongoose.Schema({
   nama: String,
   NIM: String,
   keperluan: String,
-  antrian: Number,
+  antrian: String,
   tanggal: String,
   status: Boolean,
 });
