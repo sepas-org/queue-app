@@ -1,11 +1,50 @@
-# queue-app
+# Queue App  
+This application is an application to manage queues
 
-## Description
+## Features
+- Admin Page
+- Dashboard
+- Queue
 
-Aplikasi ini merupakan aplikasi untuk mengelola antrian. Aplikasi ini dibuat menggunakan MERN stack.
+## Getting Started
+### 1. Prequerities:
+- `MongoDB`
+- `NodeJS`
+- `NPM`
 
-## Anggota 
+### 2. Initial Setup
+- Clone the project from our [repository](https://github.com/sepas-org/queue-app)
+- Install the dependencies on front-end and back-end folder by following command bellow:  
+  ```
+  cd backend
+  npm install
+  ```
+  ```
+  cd frontend
+  npm install
+  ```
+- Fill in the env variable of the `.env.example` file and rename the file to .env
+- Start the backend server by following command:
+  ```
+  cd backend
+  npm start
+  ```
+ - Start the front-end by following command:  
+    ```
+    cd frontend
+    npm run dev
+    ```
+    The application can be accessed on `http:/localhost:PORT` (according to the port specified by you)
 
-Fadlie
-Zulfan
-Yahya
+## Dependencies & Technologies
+- MongoDB
+- ExpressJs
+- ReactJs
+- Node.js
+
+## Our Profile 
+| Name | GitHub Profile | Linkedin Profile |
+|------|----------------|------------------|
+| Muhamad Fadlie Putra Pratama | [Fadlie's Github Profile](https://github.com/mfadlieputrap) | [<img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://id.linkedin.com/in/muhamad-fadlie-putra-pratama) |
+| Muhamad Zulfan Taqiyudin Baehaki | [Zulfan's Github Profile](https://github.com/neunicorn) | [<img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://www.linkedin.com/in/muhamadzulfan/) |
+| Yahya Pratama | [Yahya's Github Profile](https://github.com/Yahyap) | [<img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://id.linkedin.com/in/yahya-pratama-76698924b)
