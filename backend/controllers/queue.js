@@ -1,5 +1,5 @@
 const queueModel = require("../models/queue");
-const riwayat = require("../models/history");
+const riwayatSchema = require("../models/history");
 
 var queue = [];
 var queueValue = 0;
@@ -53,15 +53,24 @@ class Queue {
   async addQueue(req, res) {
     try {
       let date = new Date().toLocaleDateString();
-      let { fullname, nim, keperluan } = req.body;
+      let { nama, nim, keperluan } = req.body;
       queueValue++;
       const obj = {
         queueValue,
-        fullname,
+        nama,
         nim,
         keperluan,
         date,
       };
+      const riwayat = new riwayatSchema({
+        nama: nama,
+        NIM: nim,
+        keperluan: keperluan,
+        antrian: queueValue,
+        tanggal: date,
+        status: false,
+      });
+      await riwayat.save();
       queue.push(obj);
       return res.status(200).json({
         status: true,
