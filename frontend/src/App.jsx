@@ -1,21 +1,20 @@
-import './App.css'
-import Form from './components/Form'
+import './assets/css/App.css'
+import Form from './pages/Form'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Ticket from './components/Ticket'
-import Display from './components/Display'
-
+import Display from './pages/Display'
+import Admin from './pages/Admin'
 function App() {
 
   return (
-    <>
+    <div>
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Form />}></Route>
-          <Route path="/ticket" element={<Ticket />}></Route>
           <Route path="/display" element={<Display />}></Route>
+          <Route path="/admin" element={<Admin />}></Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   )
 }
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect} from "react"
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { Done, Submit } from "../components/Button"
+import { DataPost } from "../utils/api"
 
 export default function Form (){
     const [inputs, setInputs] = useState({})
@@ -52,21 +54,18 @@ export default function Form (){
         event.preventDefault()
         const nama = inputs.nama || ""
         const keperluan = inputs.keperluan || ""
+        const nim = inputs.nim || ""
+        const queue = formatQueueNumber(number)
+        const data = {
+            nama: nama,
+            nim: nim,
+            keperluan: keperluan,
+            number: queue
+        }
         if(nama !== "" && keperluan !== ""){
             
             setNumber((prevNumber) => prevNumber + 1);
-            axios.post("http://localhost:3030/api/number", {
-                number: `${formatQueueNumber(number)}`,
-                nama: inputs.nama,
-                nim: inputs.nim,
-                keperluan: inputs.keperluan
-            })
-            .then((response) => {
-                console.log(response.data)
-            })
-            .catch((error)=>{
-                console.error(error)
-            })
+            <DataPost Data={data}/>
             confirm(`Halo ${nama}, apakah keperluan kamu adalah ${keperluan}`)
             setShowTicket(true)
             
@@ -134,12 +133,7 @@ export default function Form (){
                             onChange={handleChange}
                             className="field focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                         />
-                        <button 
-                            type="submit"
-                            className="p-4 mt-3 mb-10 text-xl font-medium text-white bg-blue-400 rounded-md hover:bg-blue-500 active:bg-blue-700"
-                        >
-                            Submit
-                        </button>
+                        <Submit />
                     </div>
                     
                 </form>
