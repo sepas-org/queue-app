@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Longcard(){
     return(
-        <div className='w-full border-l-2 flex flex-co'>
+        <div className='w-full border-l-2 flex flex-col'>
             <h1 className='m-auto'>Daftar Antrian Counter 1</h1>
             <div className=' flex flex-row justify-between rounded-xl text-sm'>
             {/* <div className=' flex flex-row justify-between absolute top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] p-[20px] w-4/5 h-2/6 border-2 rounded-xl text-sm'>  */}

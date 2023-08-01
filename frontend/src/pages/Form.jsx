@@ -1,11 +1,13 @@
 import React, { useState, useEffect} from "react"
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { Done, Submit } from "../components/Button"
-import { DataPost } from "../utils/api"
+import { Submit } from "../components/Button"
+import { dataPostClient } from "../utils/api"
 
 export default function Form (){
-    const [inputs, setInputs] = useState({})
+    const [inputs, setInputs] = useState({
+        nama: '',
+        nim: '',
+        keperluan: ''
+    })
     const [number, setNumber] = useState(()=>{
         // Get the initial number value from localStorage if it exists, otherwise default to 1
         const storedNumber = sessionStorage.getItem("number");
@@ -17,27 +19,7 @@ export default function Form (){
         // Save the current number value to localStorage whenever it changes
         sessionStorage.setItem("number", number);
     }, [number]);
-    // useEffect(() => {
-    //     // Function to send the POST request when the number state changes
-    //     const sendPostRequest = async () => {
-    //     try {
-    //         const response = await fetch("http://localhost:3030/api/number", {
-    //             method: "POST",
-    //             headers: {
-    //             "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({ numbers: number }),
-    //         });
-
-    //         const data = await response.json();
-    //         console.log("Response from server: ", data);
-    //     } catch (error) {
-    //     console.error("Error: ", error);
-    //     }
-    //     };
-
-    //     sendPostRequest()
-    // }, [number])
+    
 
 
     const formatQueueNumber = (number)=>{
@@ -50,37 +32,53 @@ export default function Form (){
         setInputs(values => ({...values, [name]: value}))
     }
     
-    const handleSubmit = (event) => {
+    let nama, keperluan, nim = ""
+
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        const nama = inputs.nama || ""
-        const keperluan = inputs.keperluan || ""
-        const nim = inputs.nim || ""
-        const queue = formatQueueNumber(number)
+        
+        
+        if(!isNaN(inputs.nim)){
+            nim = inputs.nim
+        }else{
+            return alert('Invalid input. Please enter a valid number.')
+        }
+
+        if( nama !== "" ){
+            nama = inputs.nama
+        }else{
+            return alert('Invalid input. Please enter nama')
+        }
+
+        if( keperluan !== ""){
+            keperluan = inputs.keperluan
+        }else{
+            return alert('Invalid input. Please enter keperluan')
+        }
+        
         const data = {
             nama: nama,
             nim: nim,
-            keperluan: keperluan,
-            number: queue
+            keperluan: keperluan
         }
-        if(nama !== "" && keperluan !== ""){
+        
             
-            setNumber((prevNumber) => prevNumber + 1);
-            <DataPost Data={data}/>
-            confirm(`Halo ${nama}, apakah keperluan kamu adalah ${keperluan}`)
-            setShowTicket(true)
-            
-            // Set a timer to navigate to another page after 3 seconds (adjust the time as needed)
-            setTimeout(() => {
-                setShowTicket(false)
-            }, 6000);
+        setNumber((prevNumber) => prevNumber + 1);
+        await dataPostClient(data)
+        confirm(`Halo ${nama}, apakah keperluan kamu adalah ${keperluan}`)
+        setShowTicket(true)
+        
+        // Set a timer to navigate to another page after 3 seconds (adjust the time as needed)
+        setTimeout(() => {
+            setShowTicket(false)
+            inputs.nama = ""
+            inputs.nim = ""
+            inputs.keperluan = ""
+        }, 6000);
             
             
             // navigate('/ticket', {state: {nama}})
-            
-        }else{
-            alert("Mohon masukan nama dan keperluan anda")
-        }
-
+        
     }
 
     return(
@@ -100,7 +98,7 @@ export default function Form (){
                             name="nama"
                             id="nama"
                             placeholder="Isi nama kamu"
-                            value = { inputs.nama }
+                            value={inputs.nama}
                             onChange={handleChange}
                             className="h-10 field focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                         />
@@ -115,7 +113,7 @@ export default function Form (){
                             name="nim"
                             id="nim"
                             placeholder="Isi nim"
-                            value = { inputs.nim }
+                            value={inputs.nim}
                             onChange={handleChange}
                             className="h-10 field focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                         />
@@ -129,7 +127,7 @@ export default function Form (){
                             name="keperluan"
                             id="keperluan"
                             placeholder="Isi dengan keperluan yang kamu inginkan"
-                            value = { inputs.keperluan }
+                            value={inputs.keperluan}
                             onChange={handleChange}
                             className="field focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                         />
