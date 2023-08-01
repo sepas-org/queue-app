@@ -1,5 +1,5 @@
 const queueModel = require("../models/queue");
-const riwayat = require("../models/history");
+const riwayatSchema = require("../models/history");
 
 var queue = [];
 var queueValue = 0;
@@ -7,16 +7,12 @@ var queueValue = 0;
 var date = new Date().toLocaleDateString();
 
 // will be executed when server start so it will get the last queue if the server is restarted
-const [buffer, _] = await queueModel
-  .find({ tanggal: date })
-  .sort({ _id: -1 })
-  .limit(1)
-  .exec();
+// const [buffer, _] = queueModel.find({ tanggal: date }).sort({ _id: -1 }).limit(1).exec();
 
-if (buffer) {
-  queue = buffer.queue;
-  queueValue = buffer.queueValue;
-}
+// if (buffer) {
+//   queue = buffer.queue;
+//   queueValue = buffer.queueValue;
+// }
 
 class Queue {
   async nextQueue(req, res) {
@@ -45,15 +41,24 @@ class Queue {
   async addQueue(req, res) {
     try {
       let date = new Date().toLocaleDateString();
-      let { fullname, nim, keperluan } = req.body;
+      let { nama, nim, keperluan } = req.body;
       queueValue++;
       const obj = {
         queueValue,
-        fullname,
+        nama,
         nim,
         keperluan,
         date,
       };
+      const riwayat = new riwayatSchema({
+        nama: nama,
+        NIM: nim,
+        keperluan: keperluan,
+        antrian: queueValue,
+        tanggal: date,
+        status: false,
+      });
+      await riwayat.save();
       queue.push(obj);
       return res.status(200).json({
         status: true,
