@@ -1,5 +1,16 @@
+const queueModel = require("../models/queue");
+const riwayat = require("../models/history");
+
 var queue = [];
 var queueValue = 0;
+
+// var date = new Date().toLocaleDateString();
+
+// // const buffer = await queueModel.find({tanggal: date}, {}, { _id: -1 }).exec();
+// // if (buffer) {
+// //   queue = buffer;
+// //   queueValue = queue[queue.length - 1].queueValue;
+// // }
 
 class Queue {
   async nextQueue(req, res) {
