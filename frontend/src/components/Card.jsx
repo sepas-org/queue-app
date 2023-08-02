@@ -11,7 +11,7 @@ export default function Card(){
                     </div>
                     <div className='basis-4/6 my-auto flex flex-col'>
                         <div className='mb-5'>
-                            <label className='font-bold'>Nama</label>
+                            <label className='font-bold'>Nama: </label>
                             <p>Muhamad Julpan Zhafran Yahya</p>
                         </div>
                         <div className='mb-5'>
