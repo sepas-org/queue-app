@@ -29,3 +29,43 @@ export const Submit = () => {
 //         </button>
 //     )
 // }
+
+export const Done = ({queue}) => {
+    if(queue){
+        return(
+            <>
+                <button type="button" className='bg-green-400 rounded-md px-4 py-2 w-[8em]'>Selesai</button>
+            </>
+        )
+    }else{
+        return(
+            <>
+                <button type="button" className='bg-gray-300 rounded-md px-4 py-2 w-[8em] font-bold text-gray-400' disabled>Selesai</button>
+            </>
+        )
+    }
+    
+}
+export const Next = ({queue}) => {
+    return(
+        <>
+            <button type="button" className='bg-blue-400 rounded-md w-[8em] px-4 py-2 font-bold'>Selanjutnya</button>
+        </>
+    )
+}
+export const Cancel = ({queue}) => {
+    if(queue){
+        return(
+            <>
+                <button type="button" className='bg-red-400 rounded-md px-4 py-2 w-[8em]'>Batalkan</button>
+            </>
+        )
+    }else{
+        return(
+            <>
+                <button type="button" className='bg-gray-300 rounded-md px-4 py-2 w-[8em] font-bold text-gray-400' disabled>Batalkan</button>
+            </>
+        )
+    }
+    
+}

@@ -1,12 +1,13 @@
 import React from 'react'
 import Aside from '../components/Aside'
-import Longcard from '../components/Longcard'
+
+import { MainQueue } from '../components/container/MainQueue'
 
 export default function Admin(){
     return(
         <div className='flex h-screen flex-row'>
             <Aside />
-            <Longcard />
+            <MainQueue />
         </div>
     )
 }

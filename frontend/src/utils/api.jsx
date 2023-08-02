@@ -19,3 +19,10 @@ export const dataPostLogin = async (data) => {
         throw e
     }
 }
+
+// export const getDataQueue = async () => {
+//     try{
+//         const result = await axios.get("")
+//         return result = 
+//     }
+// }
