@@ -36,8 +36,14 @@ class Queue {
     try {
       let data = queue.shift();
       if (!data) {
-        throw { code: 400, message: "No queue" };
+        throw { code: 400, message: "No queue", status: false };
       }
+      const updateQueue = await queueModel({
+        queue: queue,
+        queueValue: queueValue,
+        tanggal: date,
+      });
+      await updateQueue.save();
       return res.status(200).json({
         status: true,
         message: "antrian selanjutnya",
@@ -85,6 +91,27 @@ class Queue {
         status: true,
         message: "QUEUE_ADDED",
         queue: queue[queue.length - 1],
+      });
+    } catch (err) {
+      return res.status(err.code || 500).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  }
+
+  async getQueue(req, res) {
+    try {
+      const [buffer, _] = await queueModel
+        .find({ tanggal: date })
+        .sort({ _id: -1 })
+        .limit(1)
+        .exec();
+
+      return res.status(200).json({
+        status: true,
+        message: "QUEUE_GET",
+        data: buffer,
       });
     } catch (err) {
       return res.status(err.code || 500).json({

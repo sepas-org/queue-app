@@ -55,6 +55,10 @@ class Admin {
         username: username,
       }).exec();
 
+      if (!checkUser) {
+        throw { code: 400, message: "User not found" };
+      }
+
       const isPasswordValid = await bcrypt.compareSync(
         password,
         checkUser.password
