@@ -14,7 +14,7 @@ This application is an application to manage queues
 
 ### 2. Initial Setup
 - Clone the project from our [repository](https://github.com/sepas-org/queue-app)
-- Install the dependencies on front-end and back-end folder by following command bellow:  
+- Install the dependencies on the front-end and back-end folders by following command bellow:  
   ```
   cd backend
   npm install
@@ -23,8 +23,9 @@ This application is an application to manage queues
   cd frontend
   npm install
   ```
-- Fill in the env variable of the `.env.example` file and rename the file to .env
-- Start the backend server by following command:
+- Make MongoDB Database
+- Fill in the env variable of the `.env.example` file (`PORT`, `MONGO_URL`, and `SECRET` for session) and rename the file to .env
+- Start the backend server by following the command:
   ```
   cd backend
   npm start
