@@ -43,6 +43,11 @@ This application is an application to manage queues
 - ReactJs
 - Node.js
 
+## Database Model
+<center>
+<img src="https://github.com/sepas-org/queue-app/blob/main/assets/db_queue.png"/>
+</center>
+
 ## Our Profile 
 | Name | GitHub Profile | Linkedin Profile |
 |------|----------------|------------------|
