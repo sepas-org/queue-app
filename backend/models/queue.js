@@ -3,10 +3,11 @@ const Schema = mongoose.Schema;
 
 const queueSchema = new Schema({
   queue: {
-    type: Number,
+    type: Array,
+    value: Object,
   },
   queueValue: {
-    type: Number,
+    type: String,
   },
   tanggal: String,
 });

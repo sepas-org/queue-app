@@ -1,16 +1,31 @@
 const queueModel = require("../models/queue");
-const riwayat = require("../models/history");
+const riwayatSchema = require("../models/history");
 
 var queue = [];
 var queueValue = 0;
 
-// var date = new Date().toLocaleDateString();
+var date = new Date().toLocaleDateString();
 
-// // const buffer = await queueModel.find({tanggal: date}, {}, { _id: -1 }).exec();
-// // if (buffer) {
-// //   queue = buffer;
-// //   queueValue = queue[queue.length - 1].queueValue;
-// // }
+/**
+ * will be executed when server start so it will get the last queue if the server is restarted
+ *  */
+
+// const getQueue = async () => {
+//   const [buffer, _] = await queueModel
+//     .find({ tanggal: date })
+//     .sort({ _id: -1 })
+//     .limit(1)
+//     .exec();
+
+//   return buffer;
+// };
+
+// const buffer = getQueue();
+// console.log(buffer);
+// if (buffer) {
+//   queue = buffer.queue;
+//   queueValue = buffer.queueValue;
+// }
 
 class Queue {
   async nextQueue(req, res) {
@@ -38,7 +53,6 @@ class Queue {
 
   async addQueue(req, res) {
     try {
-      let date = new Date().toLocaleDateString();
       let { nama, nim, keperluan } = req.body;
       queueValue++;
       const obj = {
@@ -48,13 +62,29 @@ class Queue {
         keperluan,
         date,
       };
+
       queue.push(obj);
-      console.log(obj)
-      console.log('halo')
+      const queueDb = new queueModel({
+        queue: queue,
+        queueValue: queueValue,
+        tanggal: date,
+      });
+      await queueDb.save();
+
+      const riwayat = new riwayatSchema({
+        nama: nama,
+        NIM: nim,
+        keperluan: keperluan,
+        antrian: queueValue,
+        tanggal: date,
+        status: false,
+      });
+      await riwayat.save();
+
       return res.status(200).json({
         status: true,
         message: "QUEUE_ADDED",
-        queue,
+        queue: queue[queue.length - 1],
       });
     } catch (err) {
       return res.status(err.code || 500).json({
