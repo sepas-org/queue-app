@@ -36,14 +36,17 @@ class Queue {
     try {
       let data = queue.shift();
       if (!data) {
-        throw { code: 400, message: "No queue", status: false };
+        throw { code: 400, message: "No queue" };
       }
-      const updateQueue = await queueModel({
-        queue: queue,
-        queueValue: queueValue,
-        tanggal: date,
-      });
-      await updateQueue.save();
+      if (queue.length !== 0) {
+        const updateQueue = await queueModel({
+          queue: queue,
+          queueValue: queueValue,
+          tanggal: date,
+        });
+        await updateQueue.save();
+      }
+
       return res.status(200).json({
         status: true,
         message: "antrian selanjutnya",
@@ -102,6 +105,9 @@ class Queue {
 
   async getQueue(req, res) {
     try {
+      if (queue.length === 0) {
+        throw { code: 400, message: "No queue" };
+      }
       const [buffer, _] = await queueModel
         .find({ tanggal: date })
         .sort({ _id: -1 })
@@ -120,6 +126,24 @@ class Queue {
       });
     }
   }
-}
 
+  async done(req, res) {
+    try {
+      const { user } = req.session;
+      await riwayatSchema.updateOne(
+        { antrian: req.params.id },
+        { status: true, admin: user }
+      );
+      return res.status(200).json({
+        status: true,
+        message: "QUEUE_DONE",
+      });
+    } catch (err) {
+      return res.status(err.code || 500).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  }
+}
 module.exports = new Queue();
