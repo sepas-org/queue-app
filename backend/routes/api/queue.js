@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const displayController = require("../../controllers/queue");
+const queueController = require("../../controllers/queue");
 const { requireAuth } = require("../../middleware/session");
 
-router.get("/", requireAuth, displayController.getQueue);
 router.get("/next", requireAuth, displayController.nextQueue);
 router.post("/add", displayController.addQueue);
 
