@@ -17,15 +17,14 @@ const getQueue = async () => {
     .limit(1)
     .exec();
 
-  return buffer;
-};
-getQueue().then((res) => {
-  console.log(res);
-  if (res) {
-    queue = res.queue;
-    queueValue = res.queueValue;
+  console.log(buffer);
+
+  if (buffer) {
+    queue = buffer.queue;
+    queueValue = buffer.queueValue;
   }
-});
+};
+getQueue();
 
 class Queue {
   async nextQueue(req, res) {
