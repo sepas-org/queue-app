@@ -42,6 +42,7 @@ This application is an application to manage queues
 - ExpressJs
 - ReactJs
 - Node.js
+- Vite
 
 ## Database Model
 <center>
