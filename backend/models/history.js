@@ -9,6 +9,7 @@ const riwayatSchema = new mongoose.Schema({
   antrian: String,
   tanggal: String,
   status: Boolean,
+  admin: String,
 });
 
 const riwayat = mongoose.model("riwayat", riwayatSchema);
