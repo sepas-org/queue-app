@@ -108,11 +108,7 @@ class Queue {
       if (queue.length === 0) {
         throw { code: 400, message: "No queue" };
       }
-      const [buffer, _] = await queueModel
-        .find({ tanggal: date })
-        .sort({ _id: -1 })
-        .limit(1)
-        .exec();
+      const [buffer, _] = await queueModel.find({ tanggal: date }).sort({ _id: -1 }).limit(1).exec();
 
       return res.status(200).json({
         status: true,
@@ -130,10 +126,7 @@ class Queue {
   async doneQueue(req, res) {
     try {
       const { user } = req.session;
-      await riwayatSchema.updateOne(
-        { antrian: req.params.id },
-        { status: true, admin: user }
-      );
+      await riwayatSchema.updateOne({ antrian: req.params.queueValue }, { status: true, admin: user });
       return res.status(200).json({
         status: true,
         message: "QUEUE_DONE",
