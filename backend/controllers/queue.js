@@ -10,22 +10,22 @@ var date = new Date().toLocaleDateString();
  * will be executed when server start so it will get the last queue if the server is restarted
  *  */
 
-// const getQueue = async () => {
-//   const [buffer, _] = await queueModel
-//     .find({ tanggal: date })
-//     .sort({ _id: -1 })
-//     .limit(1)
-//     .exec();
+const getQueue = async () => {
+  const [buffer, _] = await queueModel
+    .find({ tanggal: date })
+    .sort({ _id: -1 })
+    .limit(1)
+    .exec();
 
-//   return buffer;
-// };
-
-// const buffer = getQueue();
-// console.log(buffer);
-// if (buffer) {
-//   queue = buffer.queue;
-//   queueValue = buffer.queueValue;
-// }
+  return buffer;
+};
+getQueue().then((res) => {
+  console.log(res);
+  if (res) {
+    queue = res.queue;
+    queueValue = res.queueValue;
+  }
+});
 
 class Queue {
   async nextQueue(req, res) {
@@ -108,7 +108,11 @@ class Queue {
       if (queue.length === 0) {
         throw { code: 400, message: "No queue" };
       }
-      const [buffer, _] = await queueModel.find({ tanggal: date }).sort({ _id: -1 }).limit(1).exec();
+      const [buffer, _] = await queueModel
+        .find({ tanggal: date })
+        .sort({ _id: -1 })
+        .limit(1)
+        .exec();
 
       return res.status(200).json({
         status: true,
@@ -126,7 +130,10 @@ class Queue {
   async doneQueue(req, res) {
     try {
       const { user } = req.session;
-      await riwayatSchema.updateOne({ antrian: req.params.queueValue }, { status: true, admin: user });
+      await riwayatSchema.updateOne(
+        { antrian: req.params.queueValue, tanggal: date },
+        { status: true, admin: user }
+      );
       return res.status(200).json({
         status: true,
         message: "QUEUE_DONE",
