@@ -127,7 +127,7 @@ class Queue {
     }
   }
 
-  async done(req, res) {
+  async doneQueue(req, res) {
     try {
       const { user } = req.session;
       await riwayatSchema.updateOne(
