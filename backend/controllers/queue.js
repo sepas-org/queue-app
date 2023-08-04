@@ -1,9 +1,8 @@
 const queueModel = require("../models/queue");
 const riwayatSchema = require("../models/history");
 
-var queue = [];
 var queueValue = 0;
-
+var updatedtemp = 0;
 var date = new Date().toLocaleDateString();
 
 /**
@@ -18,7 +17,6 @@ const getQueue = async () => {
 getQueue().then((res) => {
   console.log(res);
   if (res) {
-    queue = res.queue;
     queueValue = res.queueValue;
   }
 });
@@ -30,21 +28,17 @@ class Queue {
      * @api {get} /api/queue/next Get Next Queue
      */
     try {
-      let data = queue.shift();
-      if (!data) {
+      getQueue().then((res) => {
+        console.log(res.keperluan);
+      });
+
+      if (!res) {
         throw { code: 400, message: "No queue" };
       }
-      const updateQueue = await queueModel({
-        queue: queue,
-        queueValue: queueValue,
-        tanggal: date,
-      });
-      await updateQueue.save();
 
       return res.status(200).json({
         status: true,
         message: "antrian selanjutnya",
-        data,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
@@ -58,21 +52,15 @@ class Queue {
     try {
       let { nama, nim, keperluan } = req.body;
       queueValue++;
-      const obj = {
-        queueValue,
-        nama,
-        nim,
-        keperluan,
-        date,
-      };
-
-      queue.push(obj);
-      const queueDb = new queueModel({
-        queue: queue,
-        queueValue: queueValue,
+      const queue = new queueModel({
+        antrian: queueValue,
+        nama: nama,
+        nim: nim,
+        keperluan: keperluan,
         tanggal: date,
+        statustake: false,
       });
-      await queueDb.save();
+      await queue.save();
 
       const riwayat = new riwayatSchema({
         nama: nama,
@@ -87,7 +75,7 @@ class Queue {
       return res.status(200).json({
         status: true,
         message: "QUEUE_ADDED",
-        queue: queue[queue.length - 1],
+        queue: queue,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
@@ -99,15 +87,20 @@ class Queue {
 
   async getQueue(req, res) {
     try {
-      if (queue.length === 0) {
+      const [buffer] = await queueModel.find({ tanggal: date, statustake: false }).sort({ _id: -1 }).limit(1).exec();
+      console.log(buffer);
+      if (!buffer) {
         throw { code: 400, message: "No queue" };
       }
-      const [buffer, _] = await queueModel.find({ tanggal: date }).sort({ _id: -1 }).limit(1).exec();
+      const { antrian } = buffer;
+      console.log(antrian);
+      await queueModel.updateOne({ antrian: antrian, tanggal: date }, { statustake: true });
+      const [buffertemp] = await queueModel.find({ tanggal: date, statustake: true }).sort({ _id: -1 }).limit(1).exec();
 
       return res.status(200).json({
         status: true,
         message: "QUEUE_GET",
-        data: buffer,
+        data: buffertemp,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
