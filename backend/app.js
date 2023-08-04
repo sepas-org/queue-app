@@ -27,7 +27,9 @@ app.use("/api/queue", queueRoutes);
 app.use("/api/display", displayRoutes);
 
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URL, {
+    dbName: process.env.DB_NAME,
+  })
   .then(() => {
     console.log("Connected to database");
     app.listen(process.env.PORT, () => {

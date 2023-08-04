@@ -1,11 +1,10 @@
-const queueModel = require("../models/queue");
 const riwayatSchema = require("../models/history");
-
-var queue = [];
-var queueValue = 0;
+const queueModel = require("../models/queue");
+const queueTempModel = require("../models/queueTemp");
 
 var date = new Date().toLocaleDateString();
-
+// var queueTemp = [];
+// var queueValueTemp = 0;
 /**
  * will be executed when server start so it will get the last queue if the server is restarted
  *  */
@@ -17,39 +16,45 @@ const getQueue = async () => {
     .limit(1)
     .exec();
 
-  console.log(buffer);
-
-  if (buffer) {
-    queue = buffer.queue;
-    queueValue = buffer.queueValue;
-  }
+  return buffer;
 };
-getQueue();
 
 class Queue {
-  async nextQueue(req, res) {
+  async takeQueue(req, res) {
     /**
      * untuk dapetin antrian selanjutnya
      * @api {get} /api/queue/next Get Next Queue
      */
     try {
-      let data = queue.shift();
-      if (!data) {
+      const admin = req.session.user;
+      const queueTemp = await queueTempModel.findOne({ admin: admin }).exec();
+      if (queueTemp) {
+        throw { code: 400, message: "Antrian belum selesai" };
+      }
+      let { queue, queueValue } = await getQueue();
+      if (queue.length === 0) {
         throw { code: 400, message: "No queue" };
       }
-      if (queue.length !== 0) {
-        const updateQueue = await queueModel({
-          queue: queue,
-          queueValue: queueValue,
-          tanggal: date,
-        });
-        await updateQueue.save();
-      }
+      let temp = queue.shift();
+      console.log("temp lenght: " + temp.length);
+      // queueTemp.push(temp);
+      await queueTempModel.create({
+        queueValue: temp.queueValue,
+        admin: admin,
+        tanggal: date,
+      });
+      // queueValueTemp = temp.queueValue;
+      const updateQueue = await queueModel({
+        queue: queue,
+        queueValue: queueValue,
+        tanggal: date,
+      });
+      await updateQueue.save();
 
       return res.status(200).json({
         status: true,
         message: "antrian selanjutnya",
-        data,
+        data: temp,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
@@ -61,6 +66,14 @@ class Queue {
 
   async addQueue(req, res) {
     try {
+      let queue = [];
+      let queueValue = 0;
+      let buffer = await getQueue();
+      if (buffer) {
+        queue = buffer.queue;
+        queueValue = buffer.queueValue;
+      }
+
       let { nama, nim, keperluan } = req.body;
       queueValue++;
       const obj = {
@@ -70,7 +83,6 @@ class Queue {
         keperluan,
         date,
       };
-
       queue.push(obj);
       const queueDb = new queueModel({
         queue: queue,
@@ -102,33 +114,34 @@ class Queue {
     }
   }
 
-  async getQueue(req, res) {
-    try {
-      if (queue.length === 0) {
-        throw { code: 400, message: "No queue" };
-      }
-      const [buffer, _] = await queueModel
-        .find({ tanggal: date })
-        .sort({ _id: -1 })
-        .limit(1)
-        .exec();
+  // async getQueue(req, res) {
+  //   try {
+  //     if (queue.length === 0) {
+  //       throw { code: 400, message: "No queue" };
+  //     }
+  //     const [buffer, _] = await queueModel
+  //       .find({ tanggal: date })
+  //       .sort({ _id: -1 })
+  //       .limit(1)
+  //       .exec();
 
-      return res.status(200).json({
-        status: true,
-        message: "QUEUE_GET",
-        data: buffer,
-      });
-    } catch (err) {
-      return res.status(err.code || 500).json({
-        status: false,
-        message: err.message,
-      });
-    }
-  }
+  //     return res.status(200).json({
+  //       status: true,
+  //       message: "QUEUE_GET",
+  //       data: buffer,
+  //     });
+  //   } catch (err) {
+  //     return res.status(err.code || 500).json({
+  //       status: false,
+  //       message: err.message,
+  //     });
+  //   }
+  // }
 
   async doneQueue(req, res) {
     try {
       const { user } = req.session;
+      await queueTempModel.deleteOne({ admin: user });
       await riwayatSchema.updateOne(
         { antrian: req.params.queueValue, tanggal: date },
         { status: true, admin: user }
