@@ -3,15 +3,23 @@ const Schema = mongoose.Schema;
 
 const queueSchema = new Schema(
   {
-    queue: {
-      type: Array,
-      value: Object,
+    antrian: {
+      type: Number,
     },
-    queueValue: {
+    nama: {
+      type: String,
+    },
+    nim: {
+      type: String,
+    },
+    keperluan: {
       type: String,
     },
     tanggal: {
       type: String,
+    },
+    statustake: {
+      type: Boolean,
     },
     createdAt: {
       type: Number,

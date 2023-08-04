@@ -14,7 +14,7 @@ const riwayatSchema = new mongoose.Schema(
       type: String,
     },
     antrian: {
-      type: String,
+      type: Number,
     },
     tanggal: {
       type: String,
