@@ -21,6 +21,9 @@ const queueSchema = new Schema(
     statustake: {
       type: Boolean,
     },
+    admin: {
+      type: String,
+    },
     createdAt: {
       type: Number,
     },

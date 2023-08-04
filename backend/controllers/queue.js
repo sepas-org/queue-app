@@ -17,7 +17,7 @@ const getQueue = async () => {
 getQueue().then((res) => {
   console.log(res);
   if (res) {
-    queueValue = res.queueValue;
+    queueValue = res.antrian;
   }
 });
 
@@ -59,6 +59,7 @@ class Queue {
         keperluan: keperluan,
         tanggal: date,
         statustake: false,
+        admin: "no",
       });
       await queue.save();
 
@@ -87,6 +88,7 @@ class Queue {
 
   async getQueue(req, res) {
     try {
+      const { user } = req.session;
       const [buffer] = await queueModel.find({ tanggal: date, statustake: false }).sort({ _id: -1 }).limit(1).exec();
       console.log(buffer);
       if (!buffer) {
@@ -94,8 +96,8 @@ class Queue {
       }
       const { antrian } = buffer;
       console.log(antrian);
-      await queueModel.updateOne({ antrian: antrian, tanggal: date }, { statustake: true });
-      const [buffertemp] = await queueModel.find({ tanggal: date, statustake: true }).sort({ _id: -1 }).limit(1).exec();
+      await queueModel.updateOne({ antrian: antrian, tanggal: date }, { statustake: true, admin: user });
+      const [buffertemp] = await queueModel.find({ tanggal: date, statustake: true, admin: user }).sort({ _id: -1 }).limit(1).exec();
 
       return res.status(200).json({
         status: true,
