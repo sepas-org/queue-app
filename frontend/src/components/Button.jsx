@@ -1,37 +1,22 @@
 import React from 'react'
 
+// Submit button used in client side - START
 export const Submit = () => {
-    
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault()
-    //     handleNavigation()
-    // }
-
     return (
-            <button 
+        <button 
                 type="submit"
                 className="p-4 mt-3 mb-10 text-xl font-medium text-white bg-blue-400 rounded-md hover:bg-blue-500 active:bg-blue-700"
                 
-            >
+                >
                 Submit
             </button>
         )
-    
-}
-// export const Done = () => {
-//     return (
-//         <button
-//             type='button'
-//             className='px-3 py-2 bg-green-500 rounded-lg w-1/3 font-bold text-white'
-            
-//         >
-//             Selesai
-//         </button>
-//     )
-// }
+    }
+// Submit button used in client side - END
 
+// Done button used in admin side -START
 export const Done = ({queue}) => {
-    if(queue){
+    if(queue.length > 0){
         return(
             <>
                 <button type="button" className='bg-green-400 rounded-md px-4 py-2 w-[8em]'>Selesai</button>
@@ -44,17 +29,22 @@ export const Done = ({queue}) => {
             </>
         )
     }
-    
 }
-export const Next = ({queue}) => {
+// Done button used in admin side - END
+
+// Next button used in admin side - START
+export const Next = ({onClick}) => {
     return(
         <>
-            <button type="button" className='bg-blue-400 rounded-md w-[8em] px-4 py-2 font-bold'>Selanjutnya</button>
+            <button type="button" className='bg-blue-400 rounded-md w-[8em] px-4 py-2 font-bold' onClick={onClick}>Selanjutnya</button>
         </>
     )
 }
+// Next button used in admin side - END
+
+
 export const Cancel = ({queue}) => {
-    if(queue){
+    if(queue.length > 0){
         return(
             <>
                 <button type="button" className='bg-red-400 rounded-md px-4 py-2 w-[8em]'>Batalkan</button>

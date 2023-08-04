@@ -57,7 +57,7 @@ export const LoginForm = () =>{
 
     return (
         <div className='absolute w-2/5 shadow-lg center divForm rounded-2xl h-max'>
-            login
+            <p className='text-[24px] mx-auto w-max p-5'>Admin Login</p>
             <form onSubmit={handleSubmit}>
                 <div className='grid w-3/4 grid-cols-1 m-auto'>
                     <label 
