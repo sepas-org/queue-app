@@ -1,4 +1,4 @@
-const riwayatModel = require("../models/riwayat");
+const riwayatModel = require("../models/history");
 
 class Display {
   async dashboard(req, res) {

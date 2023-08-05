@@ -22,9 +22,11 @@ class Queue {
      */
     try {
       const admin = req.session.user;
-      const queueTemp = await queueTempModel.findOne({ admin: admin }).exec();
+      const queueTemp = await queueTempModel
+        .findOne({ admin: admin, tanggal: date })
+        .exec();
       if (queueTemp) {
-        throw { code: 400, message: "Antrian belum selesai" };
+        throw { code: 400, message: "Antrian belum selesai", data: queueTemp };
       }
 
       let { queue, queueValue } = await getQueue();
@@ -56,6 +58,7 @@ class Queue {
       return res.status(err.code || 500).json({
         status: false,
         message: err.message,
+        data: err.data,
       });
     }
   }
