@@ -15,7 +15,7 @@ class Display {
     }
   }
 
-  async history(res, req) {
+  async history(req, res) {
     try {
       const history = await riwayatModel.find({ status: true });
       if (!history) {
