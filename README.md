@@ -2,9 +2,9 @@
 This application is an application to manage queues
 
 ## Features
-- Admin Page
-- Dashboard
-- Queue
+- Admin Dashboard
+- Queue Display
+- Queue app
 
 ## Getting Started
 ### 1. Prequerities:
@@ -38,11 +38,18 @@ This application is an application to manage queues
     The application can be accessed on `http:/localhost:PORT` (according to the port specified by you)
 
 ## Dependencies & Technologies
+### Front-end
+- Node.js
+- ReactJs
+- Tailwind
+- Vite
+
+### Back-end
 - MongoDB
 - ExpressJs
-- ReactJs
 - Node.js
-- Vite
+- Mongoose
+- Bcrypt
 
 ## Database Model
 <center>
