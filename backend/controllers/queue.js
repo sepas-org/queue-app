@@ -3,11 +3,6 @@ const queueModel = require("../models/queue");
 const queueTempModel = require("../models/queueTemp");
 
 var date = new Date().toLocaleDateString();
-// var queueTemp = [];
-// var queueValueTemp = 0;
-/**
- * will be executed when server start so it will get the last queue if the server is restarted
- *  */
 
 const getQueue = async () => {
   const [buffer, _] = await queueModel
@@ -31,13 +26,14 @@ class Queue {
       if (queueTemp) {
         throw { code: 400, message: "Antrian belum selesai" };
       }
+
       let { queue, queueValue } = await getQueue();
       if (queue.length === 0) {
         throw { code: 400, message: "No queue" };
       }
+
       let temp = queue.shift();
-      console.log("temp lenght: " + temp.length);
-      // queueTemp.push(temp);
+
       await queueTempModel.create({
         queueValue: temp.queueValue,
         admin: admin,
@@ -101,7 +97,7 @@ class Queue {
       });
       await riwayat.save();
 
-      return res.status(200).json({
+      return res.status(201).json({
         status: true,
         message: "QUEUE_ADDED",
         queue: queue[queue.length - 1],
@@ -114,36 +110,13 @@ class Queue {
     }
   }
 
-  // async getQueue(req, res) {
-  //   try {
-  //     if (queue.length === 0) {
-  //       throw { code: 400, message: "No queue" };
-  //     }
-  //     const [buffer, _] = await queueModel
-  //       .find({ tanggal: date })
-  //       .sort({ _id: -1 })
-  //       .limit(1)
-  //       .exec();
-
-  //     return res.status(200).json({
-  //       status: true,
-  //       message: "QUEUE_GET",
-  //       data: buffer,
-  //     });
-  //   } catch (err) {
-  //     return res.status(err.code || 500).json({
-  //       status: false,
-  //       message: err.message,
-  //     });
-  //   }
-  // }
-
   async doneQueue(req, res) {
     try {
       const { user } = req.session;
+      const { queueValue } = req.query;
       await queueTempModel.deleteOne({ admin: user });
       await riwayatSchema.updateOne(
-        { antrian: req.params.queueValue, tanggal: date },
+        { antrian: queueValue, tanggal: date },
         { status: true, admin: user }
       );
       return res.status(200).json({
