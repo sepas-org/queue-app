@@ -133,5 +133,24 @@ class Queue {
       });
     }
   }
+
+  async cancelQueue(req, res) {
+    try {
+      const { user } = req.session;
+      const deleteQueue = await queueTempModel.deleteOne({ admin: user });
+      console.log(deleteQueue);
+
+      return res.status(200).json({
+        status: true,
+        message: "QUEUE_CANCELED",
+        data: deleteQueue,
+      });
+    } catch (err) {
+      return res.status(err.code || 500).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  }
 }
 module.exports = new Queue();
