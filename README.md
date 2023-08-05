@@ -1,5 +1,7 @@
 # Queue App  
-This application is an application to manage queues
+This application is an application to manage queues   
+## Documentation:   
+[<img src="https://img.shields.io/badge/Postman%20Documentation-orange?style=for-the-badge&logo=postman&logoColor=white">](https://documenter.getpostman.com/view/18445046/2s9XxyRDiX)
 
 ## Features
 - Admin Dashboard
