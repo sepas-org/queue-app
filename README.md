@@ -61,6 +61,6 @@ This application is an application to manage queues
 ## Our Profile 
 | Name | GitHub Profile | Linkedin Profile |
 |------|----------------|------------------|
-| Muhamad Fadlie Putra Pratama | [Fadlie's Github Profile](https://github.com/mfadlieputrap) | [<img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://id.linkedin.com/in/muhamad-fadlie-putra-pratama) |
-| Muhamad Zulfan Taqiyudin Baehaki | [Zulfan's Github Profile](https://github.com/neunicorn) | [<img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://www.linkedin.com/in/muhamadzulfan/) |
-| Yahya Pratama | [Yahya's Github Profile](https://github.com/Yahyap) | [<img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://id.linkedin.com/in/yahya-pratama-76698924b)
+| Muhamad Fadlie Putra Pratama | [<img src="https://img.shields.io/badge/Github-black?style=for-the-badge&logo=github&logoColor=white">](https://github.com/mfadlieputrap) | [<img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://id.linkedin.com/in/muhamad-fadlie-putra-pratama) |
+| Muhamad Zulfan Taqiyudin Baehaki | [<img src="https://img.shields.io/badge/Github-black?style=for-the-badge&logo=github&logoColor=white">](https://github.com/neunicorn) | [<img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://www.linkedin.com/in/muhamadzulfan/) |
+| Yahya Pratama | [<img src="https://img.shields.io/badge/Github-black?style=for-the-badge&logo=github&logoColor=white">](https://github.com/Yahyap) | [<img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white"/>](https://id.linkedin.com/in/yahya-pratama-76698924b)
