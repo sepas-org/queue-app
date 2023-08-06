@@ -55,9 +55,9 @@ class Admin {
         username: username,
       }).exec();
 
-      if(!checkUser){
-        console.log("User not Found")
-        throw { code: 404, message: "User not Found"}
+      if (!checkUser) {
+        console.log("User not Found");
+        throw { code: 404, message: "User not Found" };
       }
 
       const isPasswordValid = await bcrypt.compareSync(
@@ -71,7 +71,7 @@ class Admin {
       req.session.user = username;
       return res.status(200).json({
         status: true,
-        message: "Admin logged in successfully",
+        message: "LOGIN_SUCCESS",
       });
     } catch (err) {
       return res.status(err.code || 500).json({
