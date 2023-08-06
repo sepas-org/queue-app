@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const queueSchema = new Schema(
+const queueTemp = new Schema(
   {
-    queue: {
-      type: Array,
-      value: Object,
-    },
     queueValue: {
+      type: Number,
+    },
+    admin: {
       type: String,
     },
     tanggal: {
@@ -25,5 +24,6 @@ const queueSchema = new Schema(
   }
 );
 
-const queueModel = mongoose.model("antrian", queueSchema);
-module.exports = queueModel;
+const queueTempModel = mongoose.model("queueTemp", queueTemp);
+
+module.exports = queueTempModel;
