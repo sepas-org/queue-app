@@ -1,30 +1,14 @@
-import React, { useState, useEffect} from "react"
+import React, { useState } from "react"
 import { Submit } from "../components/Button"
 import { dataPostClient } from "../utils/api"
 
-export default function Form (){
+export function Form (){
     const [inputs, setInputs] = useState({
         nama: '',
         nim: '',
         keperluan: ''
     })
-    const [number, setNumber] = useState(()=>{
-        // Get the initial number value from localStorage if it exists, otherwise default to 1
-        const storedNumber = sessionStorage.getItem("number");
-        return storedNumber ? parseInt(storedNumber) : 1;
-    })
     const [showTicket, setShowTicket] = useState(false)
-
-    useEffect(() => {
-        // Save the current number value to localStorage whenever it changes
-        sessionStorage.setItem("number", number);
-    }, [number]);
-    
-
-
-    const formatQueueNumber = (number)=>{
-        return number.toString().padStart(3,"0")
-    }
 
     const handleChange = (event) => {
         const name = event.target.name
@@ -32,27 +16,20 @@ export default function Form (){
         setInputs(values => ({...values, [name]: value}))
     }
     
-    let nama, keperluan, nim = ""
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         
         
-        if(!isNaN(inputs.nim)){
-            nim = inputs.nim
-        }else{
+        if(isNaN(inputs.nim)){
             return alert('Invalid input. Please enter a valid number.')
         }
 
-        if( nama !== "" ){
-            nama = inputs.nama
-        }else{
+        if(!inputs.nama){
             return alert('Invalid input. Please enter nama')
         }
 
-        if( keperluan !== ""){
-            keperluan = inputs.keperluan
-        }else{
+        if(!inputs.keperluan){
             return alert('Invalid input. Please enter keperluan')
         }
         
@@ -71,9 +48,12 @@ export default function Form (){
         // Set a timer to navigate to another page after 3 seconds (adjust the time as needed)
         setTimeout(() => {
             setShowTicket(false)
-            inputs.nama = ""
-            inputs.nim = ""
-            inputs.keperluan = ""
+            // Clear input fields after form submission
+            setInputs({
+                nama: '',
+                nim: '',
+                keperluan: ''
+            });
         }, 6000);
             
             

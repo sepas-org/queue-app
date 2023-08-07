@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Submit } from '../Button';
-import { dataPostLogin } from '../../utils/api';
+import { Submit } from '../components/Button';
+import { dataPostLogin } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
 
