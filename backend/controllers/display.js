@@ -17,7 +17,10 @@ class Display {
 
   async history(req, res) {
     try {
-      const history = await riwayatModel.find({ status: true });
+      const history = await riwayatModel
+        .find({ status: true })
+        .sort({ queueValue: 1, tanggal: -1 })
+        .exec();
       if (!history) {
         throw { code: 404, message: `HISTORY_NOT_FOUND` };
       }
