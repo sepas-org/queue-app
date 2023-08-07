@@ -1,9 +1,8 @@
 import React, {useState} from 'react'
-import Card from '../Card'
-import { Cancel, Done, Next } from '../Button'
+import Card from '../components/Card'
+import { Cancel, Done, Next } from '../components/Button'
 
 export const MainQueue = () => {
-    const [queue, setQueue] = useState(false)
     const [data, setData] =useState([])
     const addData = {
         nama: "Paujan",
@@ -23,7 +22,13 @@ export const MainQueue = () => {
                 <div className='py-10 mb-5'>
                     <p className='font-bold text-[28px]'>Antrian</p>
                 </div>
-                <Card data={data}/>
+                <div className='h-max flex flex-row justify-between basis-1/2 bg-gray-200 rounded-2xl mb-9'>
+                    {data.map((item, index)=>(
+                        <Card key={index} item={item}/>
+                    ))}
+                    
+                </div>
+                
                 <div className='flex flex-row justify-between h-max text-white'>
                     <Cancel queue={data}/>
                     <Done queue={data}/>

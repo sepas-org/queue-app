@@ -59,3 +59,19 @@ export const Cancel = ({queue}) => {
     }
     
 }
+
+export const Queue = ({onClick}) =>{
+    return(
+        <>
+            <button onClick={onClick} >Queue</button>
+        </>
+    )
+}
+
+export const History = ({onClick}) =>{
+    return(
+        <>
+            <button onClick={onClick} >History</button>
+        </>
+    )
+}

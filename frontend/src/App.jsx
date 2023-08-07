@@ -1,9 +1,7 @@
 import './assets/css/App.css'
-import Form from './pages/Form'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Display from './pages/Display'
-import Admin from './pages/Admin'
-import { Login } from './pages/Login'
+import { Admin, Display, Form, Login } from './pages'
+
 function App() {
 
   return (
