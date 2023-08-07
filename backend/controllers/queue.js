@@ -2,7 +2,7 @@ const riwayatSchema = require("../models/history");
 const queueModel = require("../models/queue");
 const queueTempModel = require("../models/queueTemp");
 
-var date = new Date().toLocaleDateString();
+var date = new Date().toLocaleDateString("id-ID");
 
 const getQueue = async () => {
   const [buffer, _] = await queueModel
