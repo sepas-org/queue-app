@@ -2,7 +2,7 @@ const riwayatSchema = require("../models/history");
 const queueModel = require("../models/queue");
 const queueTempModel = require("../models/queueTemp");
 
-var date = new Date().toLocaleDateString();
+var date = new Date().toLocaleDateString("id-ID");
 
 const getQueue = async () => {
   const [buffer, _] = await queueModel
@@ -41,7 +41,7 @@ class Queue {
         admin: admin,
         tanggal: date,
       });
-      // queueValueTemp = temp.queueValue;
+
       const updateQueue = await queueModel({
         queue: queue,
         queueValue: queueValue,
@@ -74,7 +74,9 @@ class Queue {
       }
 
       let { nama, nim, keperluan } = req.body;
+
       queueValue++;
+
       const obj = {
         queueValue,
         nama,
@@ -83,6 +85,7 @@ class Queue {
         date,
       };
       queue.push(obj);
+
       const queueDb = new queueModel({
         queue: queue,
         queueValue: queueValue,
