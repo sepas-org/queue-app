@@ -17,8 +17,6 @@ const jwtAuth = () => {
           return res.status(401).json({ error: "Invalid token" });
         }
         req.jwt = decoded;
-        const { username } = decoded;
-        console.log(username);
         next();
       });
     };
