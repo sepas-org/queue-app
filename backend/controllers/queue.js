@@ -42,7 +42,7 @@ class Queue {
         tanggal: date,
       });
 
-      const updateQueue = await queueModel({
+      const updateQueue = new queueModel({
         queue: queue,
         queueValue: queueValue,
         tanggal: date,
