@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const queueController = require("../../controllers/queue");
-const { requireAuth } = require("../../middleware/session");
+const jwtAuth = require("../../middleware/jwtAuth");
 
-router.get("/next", requireAuth, queueController.takeQueue);
+router.get("/next", jwtAuth(), queueController.takeQueue);
 router.post("/add", queueController.addQueue);
-router.post("/done", requireAuth, queueController.doneQueue);
-router.delete("/cancel", requireAuth, queueController.cancelQueue);
+router.post("/done", jwtAuth(), queueController.doneQueue);
+router.delete("/cancel", jwtAuth(), queueController.cancelQueue);
 
 module.exports = router;

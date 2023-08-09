@@ -1,5 +1,6 @@
 const AdminSchema = require("../models/Admin");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 class Admin {
   async register(req, res) {
@@ -60,18 +61,16 @@ class Admin {
         throw { code: 404, message: "User not Found" };
       }
 
-      const isPasswordValid = await bcrypt.compareSync(
-        password,
-        checkUser.password
-      );
+      const isPasswordValid = await bcrypt.compareSync(password, checkUser.password);
       if (!isPasswordValid) {
         throw { code: 400, message: "PASSWORD_INVALID" };
       }
-      req.session.authenticated = true;
-      req.session.user = username;
+      const token = jwt.sign({ username }, process.env.JWT_SECRET);
+      2;
       return res.status(200).json({
         status: true,
         message: "LOGIN_SUCCESS",
+        token,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
@@ -82,11 +81,9 @@ class Admin {
   }
   async logout(req, res) {
     try {
-      req.session.destroy(() => {
-        return res.status(200).json({
-          status: true,
-          message: "logout successfully",
-        });
+      return res.status(200).json({
+        status: true,
+        message: "logout successfully",
       });
     } catch (err) {
       return res.status(err.code || 500).json({
