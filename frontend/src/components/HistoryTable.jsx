@@ -16,7 +16,7 @@ const HistoryTable = ({ data }) => {
                 <tbody>
                     {data.map((item, index)=>(
                         <tr key={index}>
-                            <td className={--border-body}>{item.queue}</td>
+                            <td>{item.queue}</td>
                             <td>{item.nama}</td>
                             <td>{item.nim}</td>
                             <td>{item.keperluan}</td>

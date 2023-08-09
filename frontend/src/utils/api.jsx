@@ -1,13 +1,13 @@
 import axios from "axios";
 
 export const dataPostClient = async (data) => {
-    axios.post("http://localhost:3030/api/queue/add", data)
-    .then((response) => {
-        console.log(response.data)
-    })
-    .catch((error)=>{
-        console.error(error)
-    })
+    try{
+        const response = await axios.post("http://localhost:3030/api/queue/add", data);
+        return response.data;
+    }catch(e){
+        console.error(e);
+        console.log(e);
+    }
 }
 
 export const dataPostLogin = async (data) => {
@@ -17,6 +17,28 @@ export const dataPostLogin = async (data) => {
     }catch(e){
         console.error(e)
         throw e
+    }
+}
+
+export const getDataNextQueue = async () => {
+    try{
+        const response = await axios.get("http://localhost:3030/api/queue/next");
+        console.log(response)
+        return response.data;
+    }catch(e){
+        console.error(e);
+        console.log(e);
+    }
+}
+
+export const getDataHistory = async () => {
+    try{
+        const response = await axios.get("http:localhost:3030/api/display/history")
+        console.log(response.data);
+        return response.data;
+    }catch(e){
+        console.log(e);
+        console.error(e);
     }
 }
 

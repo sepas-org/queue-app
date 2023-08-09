@@ -34,15 +34,13 @@ export function Form (){
         }
         
         const data = {
-            nama: nama,
-            nim: nim,
-            keperluan: keperluan
+            nama: inputs.nama,
+            nim: inputs.nim,
+            keperluan: inputs.keperluan
         }
         
-            
-        setNumber((prevNumber) => prevNumber + 1);
         await dataPostClient(data)
-        confirm(`Halo ${nama}, apakah keperluan kamu adalah ${keperluan}`)
+        confirm(`Halo ${inputs.nama}, apakah keperluan kamu adalah ${inputs.keperluan}`)
         setShowTicket(true)
         
         // Set a timer to navigate to another page after 3 seconds (adjust the time as needed)
