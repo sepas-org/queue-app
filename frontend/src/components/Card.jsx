@@ -35,3 +35,36 @@ export default function Card({key, item}){
     
     
 }
+
+export function RiCard({key, item}){
+    if(item){
+        return(
+            <div className='h-max w-[85%] flex flex-row justify-around mb-3 border rounded-xl border-gray-300 py-2 '>
+                <div className='basis-1/6 my-auto'>
+                    <p className='text-[50px]'>{item.queue}</p>
+                </div>
+                <div key={key}className='basis-4/6 my-auto flex flex-col'>
+                    <div className='mb'>
+                        <p><span className='font-bold'>Nama: </span>{item.nama}</p>
+                    </div>
+                    <div className='mb'>
+                        <p><span className='font-bold'>NIM: </span>{item.nim}</p>
+                    </div>
+                    <div >
+                        <p><span className='font-bold'>Keperluan: </span>{item.keperluan}</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }else{
+        return(
+            <div className='h-max flex flex-row justify-between basis-1/2 bg-gray-200 rounded-2xl mb-9'>
+                <div className='m-auto'>
+                    <p className='text-gray-400 text-[24px]'>Tidak ada antrian</p>
+                </div>
+            </div>    
+        )
+    }
+    
+    
+}
