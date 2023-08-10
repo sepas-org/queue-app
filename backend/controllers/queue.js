@@ -6,7 +6,11 @@ const jwt = require("jsonwebtoken");
 var date = new Date().toLocaleDateString("id-ID");
 
 const getQueue = async () => {
-  const [buffer, _] = await queueModel.find({ tanggal: date }).sort({ _id: -1 }).limit(1).exec();
+  const [buffer, _] = await queueModel
+    .find({ tanggal: date })
+    .sort({ _id: -1 })
+    .limit(1)
+    .exec();
 
   return buffer;
 };
@@ -20,7 +24,9 @@ class Queue {
     try {
       const { jwt } = req;
       const admin = jwt.username;
-      const queueTemp = await queueTempModel.findOne({ admin: admin, tanggal: date }).exec();
+      const queueTemp = await queueTempModel
+        .findOne({ admin: admin, tanggal: date })
+        .exec();
       if (queueTemp) {
         throw { code: 400, message: "Antrian belum selesai", data: queueTemp };
       }
@@ -38,7 +44,7 @@ class Queue {
         tanggal: date,
       });
 
-      const updateQueue = await queueModel({
+      const updateQueue = new queueModel({
         queue: queue,
         queueValue: queueValue,
         tanggal: date,
@@ -115,10 +121,16 @@ class Queue {
   async doneQueue(req, res) {
     try {
       const { jwt } = req;
-      const { user } = jwt.username;
+      const { username } = jwt;
       const { queueValue } = req.query;
-      await queueTempModel.deleteOne({ admin: user });
-      await riwayatSchema.updateOne({ antrian: queueValue, tanggal: date }, { status: true, admin: user });
+      const deleteCheck = await queueTempModel.deleteOne({ admin: username });
+      if (deleteCheck.deletedCount === 0) {
+        throw { code: 400, message: "done_queue_failed" };
+      }
+      await riwayatSchema.updateOne(
+        { antrian: queueValue, tanggal: date },
+        { status: true, admin: username }
+      );
       return res.status(200).json({
         status: true,
         message: "QUEUE_DONE",
@@ -133,9 +145,11 @@ class Queue {
 
   async cancelQueue(req, res) {
     try {
-      const { user } = jwt.username;
-      const deleteQueue = await queueTempModel.deleteOne({ admin: user });
-      console.log(deleteQueue);
+      const { username } = jwt;
+      const deleteQueue = await queueTempModel.deleteOne({ admin: username });
+      if (deleteQueue.deletedCount === 0) {
+        throw { code: 400, message: "cancel_queue_failed" };
+      }
 
       return res.status(200).json({
         status: true,
