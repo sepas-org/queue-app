@@ -62,7 +62,7 @@ export function Form (){
     return(
         <>
             <div className={`absolute w-2/5 shadow-lg center divForm rounded-2xl h-max ${showTicket ? 'hidden': ''}`} id="divForm">
-                <h2  className="pt-12 mx-auto text-3xl font-semibold w-max pb-11"></h2>
+                <h2  className="pt-12 mx-auto text-3xl font-semibold w-max pb-11">Pengajuan Keperluan</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="grid w-3/4 grid-cols-1 m-auto ">
                         <label 

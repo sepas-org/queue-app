@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Card from '../components/Card'
 import { Cancel, Done, Next } from '../components/Button'
 import { getDataNextQueue } from '../utils/api'
@@ -7,10 +7,15 @@ export const MainQueue = () => {
     const [data, setData] =useState([])
 
     const handleNextClick = async ()=>{
-        console.log(await getDataNextQueue())
-        setData((prevData) => [...prevData, data]);
-        
-    }
+        try{
+            const nextData = await getDataNextQueue()
+            setData((prevData) => [...prevData, nextData]);
+        }catch(e){
+            console.log(e)
+        } 
+    };
+
+    
     console.log(data)
     if(data.length > 0){
         return (
