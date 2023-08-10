@@ -39,7 +39,7 @@ export const dataPostClient = async (data) => {
 export const getDataNextQueue = async () => {
     try{
         const response = await api.get("/queue/next");
-        console.log(response)
+        console.log(response.data.data);
         return response.data;
     }catch(e){
         console.error(e);
@@ -47,24 +47,26 @@ export const getDataNextQueue = async () => {
     }
 }
 
-export const getDataHistory = async (token) => {
+export const getDataHistory = async () => {
     try{
         const response = await api.get("/display/history")
-        console.log(response.data);
-        return response.data;
+        console.log(response.data.data);
+        return response.data.data;
     }catch(e){
         console.log(e);
         console.error(e);
     }
 }
 
-// export const postDataQueueDone = async () => {
-//     try{
-        
-//     }catch(e){
-
-//     }
-// }
+export const postDataQueueDone = async (queueValue) => {
+    try{
+        const results = await api.post(`/queue/done?queueValue=${queueValue}`)
+        return results.data
+    }catch(e){
+        console.log(e);
+        console.error(e);
+    }
+}
 
 // export const getDataQueue = async () => {
 //     try{

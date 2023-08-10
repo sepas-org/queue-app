@@ -72,6 +72,3 @@ button:focus-visible {
 @tailwind components;
 @tailwind utilities;
 
-:root{
-  --border-body: "border px-8 py-4"
-}

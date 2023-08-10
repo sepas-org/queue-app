@@ -1,13 +1,13 @@
 import React from 'react'
 
-export default function Card({key, item}){
+export default function Card({index, item}){
     if(item){
         return(
-            <div className='h-[70%] w-[85%] flex flex-row justify-around m-auto'>
+            <div key={index} className='h-[70%] w-[85%] flex flex-row justify-around m-auto'>
                 <div className='basis-1/6 my-auto'>
-                    <p className='text-[80px]'>{item.queue}</p>
+                    <p className='text-[80px]'>{item.queueValue}</p>
                 </div>
-                <div key={key}className='basis-4/6 my-auto flex flex-col'>
+                <div className='basis-4/6 my-auto flex flex-col'>
                     <div className='mb-5'>
                         <label className='font-bold'>Nama: </label>
                         <p>{item.nama}</p>

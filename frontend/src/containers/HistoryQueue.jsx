@@ -3,22 +3,27 @@ import {RiCard} from '../components/Card';
 import HistoryTable from '../components/HistoryTable';
 import { getDataHistory } from '../utils/api';
 
-export const HistoryQueue = async () => {
+export const HistoryQueue = () => {
     const [historyQueue, setHistoryQueue] = useState([])
     
 
-    useEffect(() => {
-        async function fetchHistoryData() {
-            try {
+    
+    useEffect( ()=>{
+        const fetchDataHistory = async () => {
+            try{
                 const data = await getDataHistory();
-                setHistoryQueue((prev) => [...prev, ...data]);
-            } catch (error) {
-                console.error('Error fetching history data:', error);
+                setHistoryQueue((prev) => [...prev, ...data])
+            }catch(e){
+                console.log(e);
+                console.error(e);
             }
-        }
+        };
+        
+        fetchDataHistory();
 
-        fetchHistoryData();
-    }, []);
+    },[])
+    
+           
     // mock database
     // const historyQueue = [
     //     {
@@ -55,11 +60,14 @@ export const HistoryQueue = async () => {
 
     // setHistoryQueue((history) => [...history, addHistoryQueue])
     return (
-        <div className='flex flex-col w-[65%] mx-auto h-[90%] m-auto '>
-            <p className='text-[40px] '>Riwayat Antrian</p>
-            <div className='h-2/3 flex flex-col justify-between my-auto overflow-auto'>
-                <HistoryTable data={historyQueue}/>
+        <div className='flex flex-col w-full mx-auto h-[90%] m-auto '>
+            <div className='flex flex-col w-[90%] mx-auto h-[99%] m-auto' >
+                <p className='text-[40px] '>Riwayat Antrian</p>
+                <div className='h-2/3 flex flex-col justify-between my-auto overflow-auto'>
+                    <HistoryTable data={historyQueue}/>
+                </div>
             </div>
+            
         </div>
     )
     // return (

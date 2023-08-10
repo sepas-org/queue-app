@@ -15,11 +15,11 @@ export const Submit = () => {
 // Submit button used in client side - END
 
 // Done button used in admin side -START
-export const Done = ({queue}) => {
+export const Done = ({queue, onClick}) => {
     if(queue.length > 0){
         return(
             <>
-                <button type="button" className='bg-green-400 rounded-md px-4 py-2 w-[8em]'>Selesai</button>
+                <button type="button" className='bg-green-400 rounded-md px-4 py-2 w-[8em]' onClick={onClick}>Selesai</button>
             </>
         )
     }else{
