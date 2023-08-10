@@ -19,8 +19,13 @@ class Display {
     try {
       const history = await riwayatModel
         .find({ status: true })
-        .sort({ queueValue: 1, tanggal: -1 })
+        .sort({ updatedAt: -1 })
         .exec();
+
+      history.sort((a, b) => {
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
+      });
+
       if (!history) {
         throw { code: 404, message: `HISTORY_NOT_FOUND` };
       }
@@ -32,8 +37,12 @@ class Display {
           keperluan: item.keperluan,
           tanggal: item.tanggal,
           admin: item.admin,
-          createdAt: new Date(item.createdAt * 1000).toLocaleString("id-ID"),
-          updatedAt: new Date(item.updatedAt * 1000).toLocaleString("id-ID"),
+          createdAt: new Date(item.createdAt * 1000).toLocaleDateString(
+            "id-ID"
+          ),
+          updatedAt: new Date(item.updatedAt * 1000).toLocaleDateString(
+            "id-ID"
+          ),
         };
       });
       return res.status(200).json({

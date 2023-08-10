@@ -3,10 +3,21 @@ const queueModel = require("../models/queue");
 const queueTempModel = require("../models/queueTemp");
 const jwt = require("jsonwebtoken");
 
-var date = new Date().toLocaleDateString("id-ID");
+const today = new Date();
+const yyyy = today.getFullYear();
+let mm = today.getMonth() + 1; // Months start at 0!
+let dd = today.getDate();
+
+if (dd < 10) dd = "0" + dd;
+if (mm < 10) mm = "0" + mm;
+var date = dd + "-" + mm + "-" + yyyy;
 
 const getQueue = async () => {
-  const [buffer, _] = await queueModel.find({ tanggal: date }).sort({ _id: -1 }).limit(1).exec();
+  const [buffer, _] = await queueModel
+    .find({ tanggal: date })
+    .sort({ _id: -1 })
+    .limit(1)
+    .exec();
 
   return buffer;
 };
@@ -20,7 +31,9 @@ class Queue {
     try {
       const { jwt } = req;
       const admin = jwt.username;
-      const queueTemp = await queueTempModel.findOne({ admin: admin, tanggal: date }).exec();
+      const queueTemp = await queueTempModel
+        .findOne({ admin: admin, tanggal: date })
+        .exec();
       if (queueTemp) {
         throw { code: 400, message: "Antrian belum selesai", data: queueTemp };
       }
@@ -120,12 +133,15 @@ class Queue {
     try {
       const { jwt } = req;
       const { username } = jwt;
-      const { queueValue } = req.query;
+      const { queueValue } = req.body;
       const deleteCheck = await queueTempModel.deleteOne({ admin: username });
       if (deleteCheck.deletedCount === 0) {
         throw { code: 400, message: "done_queue_failed" };
       }
-      await riwayatSchema.updateOne({ antrian: queueValue, tanggal: date }, { status: true, admin: username });
+      await riwayatSchema.updateOne(
+        { antrian: queueValue, tanggal: date },
+        { status: true, admin: username }
+      );
       return res.status(200).json({
         status: true,
         message: "QUEUE_DONE",
