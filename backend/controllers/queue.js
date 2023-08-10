@@ -6,11 +6,7 @@ const jwt = require("jsonwebtoken");
 var date = new Date().toLocaleDateString("id-ID");
 
 const getQueue = async () => {
-  const [buffer, _] = await queueModel
-    .find({ tanggal: date })
-    .sort({ _id: -1 })
-    .limit(1)
-    .exec();
+  const [buffer, _] = await queueModel.find({ tanggal: date }).sort({ _id: -1 }).limit(1).exec();
 
   return buffer;
 };
@@ -24,9 +20,7 @@ class Queue {
     try {
       const { jwt } = req;
       const admin = jwt.username;
-      const queueTemp = await queueTempModel
-        .findOne({ admin: admin, tanggal: date })
-        .exec();
+      const queueTemp = await queueTempModel.findOne({ admin: admin, tanggal: date }).exec();
       if (queueTemp) {
         throw { code: 400, message: "Antrian belum selesai", data: queueTemp };
       }
@@ -76,9 +70,11 @@ class Queue {
       }
 
       let { nama, nim, keperluan } = req.body;
-      if (!parseInt(nim)) {
+      const testnumber = /^[0-9]*$/.test(nim);
+      if (!testnumber) {
         throw { code: 400, message: "INVALID_INPUT_NIM" };
       }
+
       queueValue++;
 
       const obj = {
@@ -129,10 +125,7 @@ class Queue {
       if (deleteCheck.deletedCount === 0) {
         throw { code: 400, message: "done_queue_failed" };
       }
-      await riwayatSchema.updateOne(
-        { antrian: queueValue, tanggal: date },
-        { status: true, admin: username }
-      );
+      await riwayatSchema.updateOne({ antrian: queueValue, tanggal: date }, { status: true, admin: username });
       return res.status(200).json({
         status: true,
         message: "QUEUE_DONE",
