@@ -3,7 +3,14 @@ const queueModel = require("../models/queue");
 const queueTempModel = require("../models/queueTemp");
 const jwt = require("jsonwebtoken");
 
-var date = new Date().toLocaleDateString("id-ID");
+const today = new Date();
+const yyyy = today.getFullYear();
+let mm = today.getMonth() + 1; // Months start at 0!
+let dd = today.getDate();
+
+if (dd < 10) dd = "0" + dd;
+if (mm < 10) mm = "0" + mm;
+var date = dd + "-" + mm + "-" + yyyy;
 
 const getQueue = async () => {
   const [buffer, _] = await queueModel
@@ -76,9 +83,11 @@ class Queue {
       }
 
       let { nama, nim, keperluan } = req.body;
-      if (!parseInt(nim)) {
+      const testnumber = /^[0-9]*$/.test(nim);
+      if (!testnumber) {
         throw { code: 400, message: "INVALID_INPUT_NIM" };
       }
+
       queueValue++;
 
       const obj = {
@@ -124,7 +133,7 @@ class Queue {
     try {
       const { jwt } = req;
       const { username } = jwt;
-      const { queueValue } = req.query;
+      const { queueValue } = req.body;
       const deleteCheck = await queueTempModel.deleteOne({ admin: username });
       if (deleteCheck.deletedCount === 0) {
         throw { code: 400, message: "done_queue_failed" };
