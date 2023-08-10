@@ -3,6 +3,9 @@ import { Submit } from '../components/Button';
 import { dataPostLogin } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 
+// export const jwtToken = (response) => {
+//     return response.data.token
+// }
 
 export const LoginForm = () =>{
     const navigate = useNavigate()
@@ -36,6 +39,7 @@ export const LoginForm = () =>{
             }
 
             const response = await dataPostLogin(data)
+            
             console.log(response)
             // if(result.status === true){
             //     navigate('/admin')

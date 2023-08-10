@@ -34,15 +34,13 @@ export function Form (){
         }
         
         const data = {
-            nama: nama,
-            nim: nim,
-            keperluan: keperluan
+            nama: inputs.nama,
+            nim: inputs.nim,
+            keperluan: inputs.keperluan
         }
         
-            
-        setNumber((prevNumber) => prevNumber + 1);
         await dataPostClient(data)
-        confirm(`Halo ${nama}, apakah keperluan kamu adalah ${keperluan}`)
+        confirm(`Halo ${inputs.nama}, apakah keperluan kamu adalah ${inputs.keperluan}`)
         setShowTicket(true)
         
         // Set a timer to navigate to another page after 3 seconds (adjust the time as needed)
@@ -64,7 +62,7 @@ export function Form (){
     return(
         <>
             <div className={`absolute w-2/5 shadow-lg center divForm rounded-2xl h-max ${showTicket ? 'hidden': ''}`} id="divForm">
-                <h2  className="pt-12 mx-auto text-3xl font-semibold w-max pb-11"></h2>
+                <h2  className="pt-12 mx-auto text-3xl font-semibold w-max pb-11">Pengajuan Keperluan</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="grid w-3/4 grid-cols-1 m-auto ">
                         <label 
