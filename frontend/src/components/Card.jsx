@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Card({index, item}){
+export default function Card({item}){
     if(item){
         return(
-            <div key={index} className='h-[70%] w-[85%] flex flex-row justify-around m-auto'>
+            <div className='h-[70%] w-[85%] flex flex-row justify-around m-auto'>
                 <div className='basis-1/6 my-auto'>
                     <p className='text-[80px]'>{item.queueValue}</p>
                 </div>
@@ -23,15 +23,15 @@ export default function Card({index, item}){
                 </div>
             </div>
         )
-    }else{
-        return(
-            <div className='h-max flex flex-row justify-between basis-1/2 bg-gray-200 rounded-2xl mb-9'>
-                <div className='m-auto'>
-                    <p className='text-gray-400 text-[24px]'>Tidak ada antrian</p>
-                </div>
-            </div>    
-        )
-    }
+     }
+    //     return(
+    //         <div className='h-max flex flex-row justify-between basis-1/2 bg-gray-200 rounded-2xl mb-9'>
+    //             <div className='m-auto'>
+    //                 <p className='text-gray-400 text-[24px]'>Tidak ada antrian</p>
+    //             </div>
+    //         </div>    
+    //     )
+    // }
     
     
 }

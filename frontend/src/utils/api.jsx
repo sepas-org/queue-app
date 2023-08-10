@@ -19,7 +19,7 @@ export const dataPostLogin = async (data) => {
 api.interceptors.request.use((config)=>{
     const token = localStorage.getItem('token');
     if(token){
-        config.headers.Authorization = `Bearer ${token}`; 
+        config.headers.authorization = `Bearer ${token}`; 
     }
     return config;
 })
@@ -38,8 +38,8 @@ export const dataPostClient = async (data) => {
 
 export const getDataNextQueue = async () => {
     try{
-        const response = await api.get("/queue/next");
-        console.log(response.data.data);
+        const response = await api.get('/queue/next')
+        console.log(response.data)
         return response.data;
     }catch(e){
         console.error(e);
@@ -60,8 +60,8 @@ export const getDataHistory = async () => {
 
 export const postDataQueueDone = async (queueValue) => {
     try{
-        const results = await api.post(`/queue/done?queueValue=${queueValue}`)
-        return results.data
+        const results = await api.post('/queue/done')
+        return results
     }catch(e){
         console.log(e);
         console.error(e);
