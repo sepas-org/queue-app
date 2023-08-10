@@ -131,8 +131,7 @@ class Queue {
 
   async doneQueue(req, res) {
     try {
-      const { jwt } = req;
-      const { username } = jwt;
+      const { username } = req.jwt;
       const { queueValue } = req.body;
       const deleteCheck = await queueTempModel.deleteOne({ admin: username });
       if (deleteCheck.deletedCount === 0) {
