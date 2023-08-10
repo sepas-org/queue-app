@@ -76,7 +76,9 @@ class Queue {
       }
 
       let { nama, nim, keperluan } = req.body;
-
+      if (!parseInt(nim)) {
+        throw { code: 400, message: "INVALID_INPUT_NIM" };
+      }
       queueValue++;
 
       const obj = {
