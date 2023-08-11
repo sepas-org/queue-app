@@ -2,6 +2,10 @@ const riwayatSchema = require("../models/history");
 const queueModel = require("../models/queue");
 const queueTempModel = require("../models/queueTemp");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
+const PDFDocument = require("pdfkit");
+const { print } = require("pdf-to-printer");
+const path = require("path");
 
 const today = new Date();
 const yyyy = today.getFullYear();
@@ -13,11 +17,7 @@ if (mm < 10) mm = "0" + mm;
 var date = dd + "-" + mm + "-" + yyyy;
 
 const getQueue = async () => {
-  const [buffer, _] = await queueModel
-    .find({ tanggal: date })
-    .sort({ _id: -1 })
-    .limit(1)
-    .exec();
+  const [buffer, _] = await queueModel.find({ tanggal: date }).sort({ _id: -1 }).limit(1).exec();
 
   return buffer;
 };
@@ -31,9 +31,7 @@ class Queue {
     try {
       const { jwt } = req;
       const admin = jwt.username;
-      const queueTemp = await queueTempModel
-        .findOne({ admin: admin, tanggal: date })
-        .exec();
+      const queueTemp = await queueTempModel.findOne({ admin: admin, tanggal: date }).exec();
       if (queueTemp) {
         throw { code: 400, message: "Antrian belum selesai", data: queueTemp };
       }
@@ -116,6 +114,33 @@ class Queue {
       });
       await riwayat.save();
 
+      const pdfFilePath = "output.pdf";
+
+      // const doc = new PDFDocument();
+      // const writeStream = fs.createWriteStream(pdfFilePath);
+      // doc.pipe(writeStream);
+
+      // // Menambahkan teks dari data JSON ke PDF
+      // doc.fontSize(18).text("Informasi Pengguna", { align: "center" });
+      // doc.fontSize(12).text(`Nama: ${nama}`);
+      // doc.fontSize(12).text(`NIM: ${nim}`);
+      // doc.fontSize(12).text(`Keperluan: ${keperluan}`);
+      // doc.fontSize(12).text(`Tanggal: ${date}`);
+      // doc.fontSize(12).text(`antrian: ${queueValue}`);
+
+      // doc.end();
+
+      // const tmpFilePath = path.join(`../tmp/${Math.random().toString(36)}.pdf`);
+
+      // fs.writeFileSync("output.pdf", "binary");
+      console.log("hai");
+      const options = {
+        printer: "Zebra",
+      };
+
+      print(pdfFilePath, options).then(console.log);
+      // fs.unlinkSync("output.pdf");
+
       return res.status(201).json({
         status: true,
         message: "QUEUE_ADDED",
@@ -137,10 +162,7 @@ class Queue {
       if (deleteCheck.deletedCount === 0) {
         throw { code: 400, message: "done_queue_failed" };
       }
-      await riwayatSchema.updateOne(
-        { antrian: queueValue, tanggal: date },
-        { status: true, admin: username }
-      );
+      await riwayatSchema.updateOne({ antrian: queueValue, tanggal: date }, { status: true, admin: username });
       return res.status(200).json({
         status: true,
         message: "QUEUE_DONE",
