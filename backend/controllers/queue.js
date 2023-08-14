@@ -114,7 +114,7 @@ class Queue {
       });
       await riwayat.save();
 
-      const pdfFilePath = "output.pdf";
+      // const pdfFilePath = "output.pdf";
 
       // const doc = new PDFDocument();
       // const writeStream = fs.createWriteStream(pdfFilePath);
@@ -133,12 +133,12 @@ class Queue {
       // const tmpFilePath = path.join(`../tmp/${Math.random().toString(36)}.pdf`);
 
       // fs.writeFileSync("output.pdf", "binary");
-      console.log("hai");
-      const options = {
-        printer: "Zebra",
-      };
+      // console.log("hai");
+      // const options = {
+      //   printer: "Zebra",
+      // };
 
-      print(pdfFilePath, options).then(console.log);
+      // print(pdfFilePath, options).then(console.log);
       // fs.unlinkSync("output.pdf");
 
       return res.status(201).json({
