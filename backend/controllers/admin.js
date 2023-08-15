@@ -61,10 +61,7 @@ class Admin {
         throw { code: 404, message: "User not Found" };
       }
 
-      const isPasswordValid = await bcrypt.compareSync(
-        password,
-        checkUser.password
-      );
+      const isPasswordValid = await bcrypt.compareSync(password, checkUser.password);
       if (!isPasswordValid) {
         throw { code: 400, message: "PASSWORD_INVALID" };
       }
@@ -73,6 +70,7 @@ class Admin {
       return res.status(200).json({
         status: true,
         message: "LOGIN_SUCCESS",
+        username: username,
         token,
       });
     } catch (err) {
