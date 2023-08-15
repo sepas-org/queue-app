@@ -1,9 +1,12 @@
 import React, {useState } from 'react'
 import Aside from '../components/Aside'
+import { useLocation } from 'react-router-dom'
 
 import { MainQueue, HistoryQueue } from '../containers'
 
 export function Admin(){
+    const location = useLocation()
+    const {counter} = location.state || {}
     const [page, setPage] = useState(true)
 
     const handleClickQueue = () => {
@@ -23,7 +26,7 @@ export function Admin(){
     return(
         <div className='flex h-screen flex-row'>
             <Aside onClickQueue={handleClickQueue} onClickHistory={handleClickHistory} />
-            {page ? <MainQueue /> : <HistoryQueue />}
+            {page ? <MainQueue counter={counter}/> : <HistoryQueue />}
         </div>
     )
 }

@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-export function Display(){
-    const [number, setNumber] = useState()
 
-    useEffect(()=>{
-        axios.get('http://localhost:3030/api/display')
-        .then((response)=>{
-            console.log(response.data)
-            setNumber(response.data.number)
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-    })
+
+export const Display = ()=>{
     
-
+    
+    
+    const [number, setNumber] = useState(0)
+    
     return(
         <>
             <div className='absolute flex flex-row flex-wrap justify-between w-10/12 p-10 center h-5/6 gap-14'>
@@ -35,7 +28,7 @@ export function Display(){
                 </div>
                 <div className='box-content flex flex-col justify-between shadow-xl basis-1/5 rounded-3xl'>
                     <div className='relative p-10 rounded-t-3xl h-2/3'>
-                        <span className='absolute font-bold center text-7xl'>007</span>
+                        <span className='absolute font-bold center text-7xl'></span>
                     </div>
                     <div className='relative p-10 border-t-8 border-blue-600 border-solid h-1/3 rounded-b-3xl'>
                         <span className='absolute text-3xl font-bold center'>Counter ?</span>

@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import { Submit } from "../components/Button"
-import { dataPostClient } from "../utils/api"
+import React, { useState } from "react";
+import { Submit } from "../components/Button";
+import { dataPostClient } from "../utils/api";
 
 export function Form (){
     const [inputs, setInputs] = useState({
@@ -39,19 +39,26 @@ export function Form (){
             keperluan: inputs.keperluan
         }
         
-        await dataPostClient(data)
-        confirm(`Halo ${inputs.nama}, apakah keperluan kamu adalah ${inputs.keperluan}`)
-        setShowTicket(true)
+        const result = await dataPostClient(data);
+        const queue = result.queueValue;
+        console.log(result);
+        confirm(`Halo ${inputs.nama}, apakah keperluan kamu adalah ${inputs.keperluan}`);
+        setShowTicket(true);
+
+      
         
+
         // Set a timer to navigate to another page after 3 seconds (adjust the time as needed)
         setTimeout(() => {
             setShowTicket(false)
+            
             // Clear input fields after form submission
             setInputs({
                 nama: '',
                 nim: '',
                 keperluan: ''
             });
+
         }, 6000);
             
             

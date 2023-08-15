@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Submit } from '../components/Button';
 import { dataPostLogin } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { MainQueue } from './MainQueue';
 
 // export const jwtToken = (response) => {
 //     return response.data.token
@@ -45,17 +46,11 @@ export const LoginForm = () =>{
             //     navigate('/admin')
             // }
             if(response && response.status === true){
-                navigate('/admin')
+                navigate('/admin', {state: { counter: inputs.username }})
             }
         }catch(e){
             console.error(e)
             throw e
-        }
-    }
-
-    const handleNavigation = async () => {
-        if(result && result.status === true){
-            navigate('/admin')
         }
     }
 
@@ -97,6 +92,9 @@ export const LoginForm = () =>{
                     <Submit />
                 </div>
             </form>
+            <div className='hidden'>
+                <MainQueue counter={data.username}/>
+            </div>
         </div>
     )
 }
