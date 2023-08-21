@@ -172,16 +172,18 @@ class Queue {
   async doneQueue(req, res) {
     try {
       const { username } = req.jwt;
+      console.log(username);
       const { queueValue } = req.body;
       const deleteCheck = await queueTempModel.deleteOne({ admin: username });
       if (deleteCheck.deletedCount === 0) {
         throw { code: 400, message: "done_queue_failed" };
       }
 
-      await riwayatSchema.updateOne(
+      const update= await riwayatSchema.updateOne(
         { antrian: queueValue, tanggal: date },
         { status: true, admin: username }
       );
+      console.log(update)
       return res.status(200).json({
         status: true,
         message: "QUEUE_DONE",
