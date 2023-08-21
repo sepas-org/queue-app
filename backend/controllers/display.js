@@ -29,31 +29,53 @@ class Display {
 
   async history(req, res) {
     try {
-      const history = await riwayatModel.find({ status: true }).sort({ updatedAt: -1 }).exec();
-
-      history.sort((a, b) => {
-        return new Date(b.updatedAt) - new Date(a.updatedAt);
-      });
-
-      if (!history) {
-        throw { code: 404, message: `HISTORY_NOT_FOUND` };
-      }
-      const data = history.map((item) => {
-        return {
-          queueValue: item.antrian,
-          nama: item.nama,
-          nim: item.NIM,
-          keperluan: item.keperluan,
-          tanggal: item.tanggal,
-          admin: item.admin,
-          createdAt: new Date(item.createdAt * 1000).toLocaleDateString("id-ID"),
-          updatedAt: new Date(item.updatedAt * 1000).toLocaleDateString("id-ID"),
-        };
-      });
+      //use aggregate to get riwayatmodel data group by date and sort by queueValue
+      const result = await riwayatModel
+        .aggregate([
+          {
+            $addFields: {
+              day: {
+                $dateToString: {
+                  format: "%Y-%m-%d",
+                  date: { $toDate: { $multiply: ["$createdAt", 1000] } },
+                },
+              },
+            },
+          },
+          {
+            $group: {
+              _id: "$day",
+              data: { $push: "$$ROOT" },
+            },
+          },
+          {
+            $sort: { "data.antrian": -1 },
+          },
+          {
+            $unwind: "$data",
+          },
+          {
+            $match: { "data.status": true }, // Only include records with status true
+          },
+          {
+            $project: {
+              _id: "$data._id",
+              nama: "$data.nama",
+              nim: "$data.nim",
+              keperluan: "$data.keperluan",
+              antrian: "$data.antrian",
+              tanggal: "$data.tanggal",
+              status: "$data.status",
+              admin: "$data.admin",
+              createdAt: "$data.createdAt",
+            },
+          },
+        ])
+        .exec();
       return res.status(200).json({
         status: true,
-        message: `HISTORY_FETCHED`,
-        data,
+        message: "HISTORY_FETCHED",
+        data: result,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
