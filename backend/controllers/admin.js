@@ -66,7 +66,6 @@ class Admin {
         throw { code: 400, message: "PASSWORD_INVALID" };
       }
       const token = jwt.sign({ username }, process.env.JWT_SECRET);
-      2;
       return res.status(200).json({
         status: true,
         message: "LOGIN_SUCCESS",
