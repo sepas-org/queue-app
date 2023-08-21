@@ -35,10 +35,10 @@ export const Display = ()=>{
                     </div>
                 </div>
                 <div className='box-content flex flex-col justify-between shadow-xl basis-1/5 rounded-3xl'>
-                    <div className='box-content relative flex flex-col justify-between p-10 shadow-xl h-2/3 rounded-t-3xl'>
+                    <div className='box-content relative flex flex-col justify-between p-10 rounded-t-3xl'>
                         <span className='absolute font-bold center text-7xl'>008</span>
                     </div>
-                    <div className='relative p-10 border-t-8 border-blue-600 border-solid h-1/3 rounded-b-3xl'>
+                    <div className='relative p-10 h-1/3 rounded-b-3xl'>
                         <span className='absolute text-3xl font-bold center'>Counter ?</span>
                     </div>
                 </div>

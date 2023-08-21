@@ -1,10 +1,17 @@
-import React, {useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import Aside from '../components/Aside'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { MainQueue, HistoryQueue } from '../containers'
 
 export function Admin(){
+    const navigate = useNavigate()
+    const token = localStorage.getItem('token')
+    useEffect(()=>{
+        if(!token){
+            navigate('/login')
+        }
+    })
     const location = useLocation()
     const {counter} = location.state || {}
     const [page, setPage] = useState(true)
@@ -18,10 +25,6 @@ export function Admin(){
         setPage(false)
         console.log(page)
     }
-
-    // useEffect(()=>{
-    //     console.log(page)
-    // }, [page])
 
     return(
         <div className='flex h-screen flex-row'>
