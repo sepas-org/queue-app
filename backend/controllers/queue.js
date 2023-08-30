@@ -216,5 +216,21 @@ class Queue {
       });
     }
   }
+
+  async getallQueue(req, res) {
+    try {    
+      const queue = await queueModel.find({}).exec(); 
+      return res.status(200).json({
+        status: true,
+        message: "ALL_QUEUE",
+        data: queue,
+      });
+    } catch (err) {
+      return res.status(err.code || 500).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  }
 }
 module.exports = new Queue();

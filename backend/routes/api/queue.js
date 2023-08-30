@@ -6,6 +6,7 @@ const queueController = require("../../controllers/queue");
 const jwtAuth = require("../../middleware/jwtAuth");
 
 router.get("/next", jwtAuth(), queueController.takeQueue);
+router.get("/all", queueController.getallQueue);
 router.post("/add", upload.none(), queueController.addQueue);
 router.post("/done", upload.none(), jwtAuth(), queueController.doneQueue);
 router.delete("/cancel", jwtAuth(), queueController.cancelQueue);
