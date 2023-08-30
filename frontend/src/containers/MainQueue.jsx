@@ -11,7 +11,6 @@ export const MainQueue = ({counter}) => {
 
     const handleNextClick = async ()=>{
         try{
-            
             const nextData = await getDataNextQueue()
             const newData = {...nextData.data, counter: counter}
             console.log(newData)

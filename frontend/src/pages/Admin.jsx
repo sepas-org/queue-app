@@ -1,7 +1,6 @@
 import React, {useEffect, useState } from 'react'
 import Aside from '../components/Aside'
 import { useLocation, useNavigate } from 'react-router-dom'
-
 import { MainQueue, HistoryQueue } from '../containers'
 
 export function Admin(){

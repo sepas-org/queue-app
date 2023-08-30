@@ -1,0 +1,1 @@
+export const divCounter = "box-content flex flex-col justify-between shadow-lg basis-1/5 rounded-3xl border-2"

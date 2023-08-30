@@ -46,7 +46,7 @@ export const LoginForm = () =>{
             //     navigate('/admin')
             // }
             if(response && response.status === true){
-                navigate('/admin', {state: { counter: inputs.username }})
+                navigate('/admin', {state: { admin: response.jwt.username }})
             }
         }catch(e){
             console.error(e)

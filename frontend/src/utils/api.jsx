@@ -68,6 +68,19 @@ export const postDataQueueDone = async (queueValue) => {
     }
 }
 
+export const getQueueDisplay = async (admin) => {
+    try{
+        const results = await api.get('/display/dashboard');
+        const resultData = results.data.queueTemp;
+        const result = resultData.filter(queue=> queue.admin == `${admin}`);
+        console.log(results.data)
+        return result
+    }catch(e){
+        console.log(e)
+        console.error(e)
+    }
+}
+
 // export const getDataQueue = async () => {
 //     try{
 //         const result = await axios.get("")
