@@ -120,32 +120,41 @@ class Queue {
       });
       await riwayat.save();
 
-      // const pdfFilePath = "output.pdf";
+      const pdfFilePath = "output.pdf";
 
-      // const doc = new PDFDocument();
-      // const writeStream = fs.createWriteStream(pdfFilePath);
-      // doc.pipe(writeStream);
+      const doc = new PDFDocument();
+      const writeStream = fs.createWriteStream(pdfFilePath);
+      doc.pipe(writeStream);
 
-      // // Menambahkan teks dari data JSON ke PDF
-      // doc.fontSize(18).text("Informasi Pengguna", { align: "center" });
-      // doc.fontSize(12).text(`Nama: ${nama}`);
-      // doc.fontSize(12).text(`NIM: ${nim}`);
-      // doc.fontSize(12).text(`Keperluan: ${keperluan}`);
-      // doc.fontSize(12).text(`Tanggal: ${date}`);
-      // doc.fontSize(12).text(`antrian: ${queueValue}`);
+      // Menambahkan teks dari data JSON ke PDF
+      doc.fontSize(18).text("Nomor Antrian", { align: "center" });
+      doc.fontSize(10).text(`${date}`, { align: "center" });
+      doc.fontSize(20).text("\n");
+      doc.fontSize(48).text(`${queueValue}`, { align: "center" });
+      doc.fontSize(20).text("\n");
 
-      // doc.end();
+      doc
+        .fontSize(9)
+        .text(`SPS UIN SYARIF HIDAYATULLAH JAKARTA`, { align: "center" });
+      doc
+        .fontSize(9)
+        .text(
+          `Jl. Kertamukti, Ciputat, Tangerang Selatan,\nBanten, Indonesia 15412`,
+          { align: "center" }
+        );
 
-      // const tmpFilePath = path.join(`../tmp/${Math.random().toString(36)}.pdf`);
+      doc.end();
 
-      // fs.writeFileSync("output.pdf", "binary");
+      const tmpFilePath = path.join(`../tmp/${Math.random().toString(36)}.pdf`);
+
+      fs.writeFileSync("output.pdf", "binary");
       // console.log("hai");
       // const options = {
-      //   printer: "Zebra",
+      //   printer: "",
       // };
 
       // print(pdfFilePath, options).then(console.log);
-      // fs.unlinkSync("output.pdf");
+      fs.unlinkSync("output.pdf");
 
       return res.status(201).json({
         status: true,
@@ -163,16 +172,18 @@ class Queue {
   async doneQueue(req, res) {
     try {
       const { username } = req.jwt;
+      console.log(username);
       const { queueValue } = req.body;
       const deleteCheck = await queueTempModel.deleteOne({ admin: username });
       if (deleteCheck.deletedCount === 0) {
         throw { code: 400, message: "done_queue_failed" };
       }
 
-      await riwayatSchema.updateOne(
+      const update= await riwayatSchema.updateOne(
         { antrian: queueValue, tanggal: date },
         { status: true, admin: username }
       );
+      console.log(update)
       return res.status(200).json({
         status: true,
         message: "QUEUE_DONE",
