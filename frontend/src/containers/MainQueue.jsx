@@ -1,27 +1,38 @@
 import React, {useState, useEffect} from 'react'
 import Card from '../components/Card'
 import { Cancel, Done, Next } from '../components/Button'
-import { getDataNextQueue, postDataQueueDone } from '../utils/api'
+import { getDataNextQueue, getQueueDisplay, postDataQueueDone } from '../utils/api'
 import { Display } from '../pages/Display'
 
-export const MainQueue = ({counter}) => {
-    console.log(counter)
-    const [data, setData] = useState([])
+export const MainQueue = ({admin}) => {
+    console.log(admin)
+    const [data, setData] = useState({})
     const [queueValue, setQueueValue] = useState(0)
+
+    useEffect(() => {
+        const storedData = localStorage.getItem('queuedData');
+        if (storedData) {
+          setData(JSON.parse(storedData));
+        }
+      }, []);
 
     const handleNextClick = async ()=>{
         try{
             const nextData = await getDataNextQueue()
-            const newData = {...nextData.data, counter: counter}
-            console.log(newData)
-            setQueueValue(nextData.data.queueValue)
-            setData([nextData.data]);
+            const newData = {...nextData.data, admin: admin}
+            
+            // console.log(nextData)
+            localStorage.setItem('queuedData', JSON.stringify(newData))
+            setQueueValue(newData.queueValue)
+            setData(newData);
             
         }catch(e){
             console.log(e)
         } 
     };
 
+    console.log(data)
+    console.log(queueValue)
     const handleDoneClick = async () => {
         try{
             const result = await postDataQueueDone(queueValue)
@@ -29,10 +40,12 @@ export const MainQueue = ({counter}) => {
             console.log(result)
             
             if(result.status){
-                
-                    setData([])
-                    console.log(data)
-                    console.log(queueValue)
+                // Clear data from localStorage and state
+                localStorage.removeItem('queuedData');
+                setData([]);
+                setData([])
+                console.log(data)
+                console.log(queueValue)
             }
         }catch(e){
             console.log(e)
@@ -40,18 +53,17 @@ export const MainQueue = ({counter}) => {
         }
     }
 
-
     return (
         <div className='flex flex-col w-full mx-auto h-[90%] m-auto'>
             <div className='flex flex-col w-[90%] mx-auto h-[90%] m-auto' >
-                <div className='py-10 mb-5'>
+                {/* <div className='py-10 mb-5'> */}
                     <p className='font-bold text-[28px]'>Antrian</p>
-                </div>
-                {data.length > 0 ? (
+                {/* </div> */}
+                {Object.keys(data).length != 0 ? (
                     <div className='h-max flex flex-row justify-between basis-1/2 bg-gray-200 rounded-2xl mb-9'>
-                        {data.map((item, index)=>(
-                            <Card key={index} item={item}/>
-                        ))}
+                        {/* {data.map((item, index)=>( */}
+                            <Card data={data}/>
+                        {/* // ))} */}
                     </div>
                 ):(
                     <div className='h-max flex flex-row justify-between basis-1/2 bg-gray-200 rounded-2xl mb-9'>

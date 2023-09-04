@@ -16,7 +16,7 @@ export const Submit = () => {
 
 // Done button used in admin side -START
 export const Done = ({queue, onClick}) => {
-    if(queue.length > 0){
+    if(Object.keys(queue).length > 0){
         return(
             <>
                 <button type="button" className='bg-green-400 rounded-md px-4 py-2 w-[8em]' onClick={onClick}>Selesai</button>
@@ -44,7 +44,7 @@ export const Next = ({onClick}) => {
 
 
 export const Cancel = ({queue}) => {
-    if(queue.length > 0){
+    if(Object.keys(queue).length > 0){
         return(
             <>
                 <button type="button" className='bg-red-400 rounded-md px-4 py-2 w-[8em]'>Batalkan</button>

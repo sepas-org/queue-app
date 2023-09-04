@@ -12,7 +12,7 @@ export function Admin(){
         }
     })
     const location = useLocation()
-    const {counter} = location.state || {}
+    const admin = location.state.admin
     const [page, setPage] = useState(true)
 
     const handleClickQueue = () => {
@@ -28,7 +28,7 @@ export function Admin(){
     return(
         <div className='flex h-screen flex-row'>
             <Aside onClickQueue={handleClickQueue} onClickHistory={handleClickHistory} />
-            {page ? <MainQueue counter={counter}/> : <HistoryQueue />}
+            {page ? <MainQueue admin={admin}/> : <HistoryQueue />}
         </div>
     )
 }

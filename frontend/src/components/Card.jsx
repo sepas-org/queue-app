@@ -1,24 +1,27 @@
 import React from 'react'
 
-export default function Card({item}){
-    if(item){
+export default function Card({data}){
+    console.log(data)
+    console.log(data)
+    console.log(data)
+    if(data){
         return(
             <div className='h-[70%] w-[85%] flex flex-row justify-around m-auto'>
                 <div className='basis-1/6 my-auto'>
-                    <p className='text-[80px]'>{item.queueValue}</p>
+                    <p className='text-[80px]'>{data.queueValue}</p>
                 </div>
                 <div className='basis-4/6 my-auto flex flex-col'>
                     <div className='mb-5'>
                         <label className='font-bold'>Nama: </label>
-                        <p>{item.nama}</p>
+                        <p>{data.nama}</p>
                     </div>
                     <div className='mb-5'>
                         <label className='font-bold'>NIM</label>
-                        <p>{item.nim}</p>
+                        <p>{data.nim}</p>
                     </div>
                     <div >
                         <label className='font-bold'>Keperluan</label>
-                        <p>{item.keperluan}</p>
+                        <p>{data.keperluan}</p>
                     </div>
                 </div>
             </div>
